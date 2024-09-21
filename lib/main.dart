@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'Features/Home/layout/cubit/cubit.dart';
+import 'Features/Home/layout/layout.dart';
 
 void main() {
-  runApp(const HabitTracker());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<HabitCubit>(
+          create: (context) => HabitCubit(),
+        ),
+      ],
+      child: const HabitTracker(),
+    ),
+  );
 }
 
 class HabitTracker extends StatelessWidget {
@@ -10,19 +24,34 @@ class HabitTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: _navigator,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-          primaryColor: kPrimaryColor,
-          scaffoldBackgroundColor: kBackgroundColor,
-          colorScheme: const ColorScheme.light().copyWith(
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      builder: (context, child) {
+        return MaterialApp(
+          navigatorKey: _navigator,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.light().copyWith(
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: kPrimaryColor,
+              unselectedItemColor: Colors.grey,
+              elevation: 20.0,
+              backgroundColor: kOnPrimaryColor,
+            ),
+            primaryColor: kPrimaryColor,
+            scaffoldBackgroundColor: kBackgroundColor,
+            colorScheme: const ColorScheme.light().copyWith(
               primary: kPrimaryColor,
               secondary: kSecondaryColor,
               onPrimary: kOnPrimaryColor,
               onSecondary: kOnSecondaryColor,
-              error: kErrorColor)),
-      home: const Scaffold(),
+              error: kErrorColor,
+            ),
+          ),
+          home: LayoutScreen(),
+        );
+      },
     );
   }
 }
