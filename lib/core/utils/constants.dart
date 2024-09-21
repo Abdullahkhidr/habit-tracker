@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Colors
 //  003249 007EA7 504746 B6244F
-const Color kPrimaryColor = Color(0xff2ec4b6);
+const Color kPrimaryColor = Color(0xff007EA7);
 const Color kOnPrimaryColor = Color(0xFFFFFFFF);
 const Color kSecondaryColor = Color(0xFF6c757d);
 const Color kOnSecondaryColor = Color(0xFF000000);

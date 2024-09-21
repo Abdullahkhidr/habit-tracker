@@ -24,7 +24,9 @@ class CustomFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
           hintStyle: TextStyles.b4.copyWith(color: kSecondaryColor),
           hintText: hint,
-          prefixIcon: leadingIcon == null ? null : Icon(leadingIcon),
+          prefixIcon: leadingIcon == null
+              ? null
+              : Icon(leadingIcon, color: kPrimaryColor),
           suffixIcon:
               trailingIcon == null ? null : Icon(trailingIcon, size: 20),
           filled: true,
