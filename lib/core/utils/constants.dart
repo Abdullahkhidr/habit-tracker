@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Colors
 //  003249 007EA7 504746 B6244F
@@ -12,21 +13,21 @@ const Color kTextColor = Color(0xFF000000);
 const Color kHintColor = Color(0xFFE6E6E6);
 
 // Padding
-const EdgeInsets kPaddingExtraSmall = EdgeInsets.all(4.0);
-const EdgeInsets kPaddingSmall = EdgeInsets.all(8.0);
-const EdgeInsets kPaddingMedium = EdgeInsets.all(16.0);
-const EdgeInsets kPaddingLarge = EdgeInsets.all(24.0);
-const EdgeInsets kPaddingExtraLarge = EdgeInsets.all(32.0);
+EdgeInsets kPaddingExtraSmall = EdgeInsets.all(4.w);
+EdgeInsets kPaddingSmall = EdgeInsets.all(8.w);
+EdgeInsets kPaddingMedium = EdgeInsets.all(16.w);
+EdgeInsets kPaddingLarge = EdgeInsets.all(24.w);
+EdgeInsets kPaddingExtraLarge = EdgeInsets.all(32.w);
 
 // Border Radius
-BorderRadius kBorderRadiusSmall = BorderRadius.circular(4);
-BorderRadius kBorderRadiusMedium = BorderRadius.circular(8);
-BorderRadius kBorderRadiusLarge = BorderRadius.circular(16);
-BorderRadius kBorderRadiusCircular = BorderRadius.circular(1000000);
+BorderRadius kBorderRadiusSmall = BorderRadius.circular(4.r);
+BorderRadius kBorderRadiusMedium = BorderRadius.circular(8.r);
+BorderRadius kBorderRadiusLarge = BorderRadius.circular(16.r);
+BorderRadius kBorderRadiusCircular = BorderRadius.circular(1000000.r);  // For fully circular
 
 // Spaces
-const double kSpaceExtraSmall = 4.0;
-const double kSpaceSmall = 8.0;
-const double kSpaceMedium = 12.0;
-const double kSpaceLarge = 16.0;
-const double kSpaceExtraLarge = 20.0;
+double kSpaceExtraSmall = 4.w;
+double kSpaceSmall = 8.w;
+double kSpaceMedium = 12.w;
+double kSpaceLarge = 16.w;
+double kSpaceExtraLarge = 20.w;
