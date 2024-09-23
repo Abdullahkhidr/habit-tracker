@@ -3,9 +3,17 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/option_widget.dart';
 
-class ChooseDaysOfWeekWidget extends StatelessWidget {
-  const ChooseDaysOfWeekWidget({super.key});
+class ChooseDaysOfWeekWidget extends StatefulWidget {
+  final Function(Set<int> selected) onChangeSelectionDays;
+  const ChooseDaysOfWeekWidget(
+      {super.key, required this.onChangeSelectionDays});
 
+  @override
+  State<ChooseDaysOfWeekWidget> createState() => _ChooseDaysOfWeekWidgetState();
+}
+
+class _ChooseDaysOfWeekWidgetState extends State<ChooseDaysOfWeekWidget> {
+  final Set<int> days = {};
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,8 +27,16 @@ class ChooseDaysOfWeekWidget extends StatelessWidget {
                 Text('All Days', style: TextStyles.b5)
               ],
             ),
-            value: true,
-            onChanged: (value) {}),
+            value: days.length == 7,
+            onChanged: (value) {
+              if (days.length == 7) {
+                days.clear();
+              } else {
+                days.addAll(List.generate(7, (index) => index + 1));
+              }
+              setState(() {});
+              widget.onChangeSelectionDays(days);
+            }),
         Row(
             children: List.generate(
                 _days.length,
@@ -31,8 +47,16 @@ class ChooseDaysOfWeekWidget extends StatelessWidget {
                           : EdgeInsets.zero,
                       child: OptionWidget(
                           title: _days[index],
-                          isSelected: index != 1,
-                          onSelect: () {}),
+                          isSelected: days.contains(index + 1),
+                          onSelect: () {
+                            if (days.contains(index + 1)) {
+                              days.remove(index + 1);
+                            } else {
+                              days.add(index + 1);
+                            }
+                            setState(() {});
+                            widget.onChangeSelectionDays(days);
+                          }),
                     ))))
       ],
     );

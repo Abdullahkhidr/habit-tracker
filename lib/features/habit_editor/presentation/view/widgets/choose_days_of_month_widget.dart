@@ -4,9 +4,18 @@ import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/option_widget.dart';
 
-class ChooseDaysOfMonthWidget extends StatelessWidget {
-  const ChooseDaysOfMonthWidget({super.key});
+class ChooseDaysOfMonthWidget extends StatefulWidget {
+  final Function(Set<int> selected) onChangeSelectionDays;
+  const ChooseDaysOfMonthWidget(
+      {super.key, required this.onChangeSelectionDays});
 
+  @override
+  State<ChooseDaysOfMonthWidget> createState() =>
+      _ChooseDaysOfMonthWidgetState();
+}
+
+class _ChooseDaysOfMonthWidgetState extends State<ChooseDaysOfMonthWidget> {
+  final Set<int> days = {};
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,8 +41,16 @@ class ChooseDaysOfMonthWidget extends StatelessWidget {
                               padding: kPaddingExtraSmall,
                               borderRadius: kBorderRadiusCircular,
                               title: '${index + 1}',
-                              isSelected: index & 2 == 0,
-                              onSelect: () {}),
+                              isSelected: days.contains(index + 1),
+                              onSelect: () {
+                                if (days.contains(index + 1)) {
+                                  days.remove(index + 1);
+                                } else {
+                                  days.add(index + 1);
+                                }
+                                setState(() {});
+                                widget.onChangeSelectionDays(days);
+                              }),
                         ),
                       ))),
         ],

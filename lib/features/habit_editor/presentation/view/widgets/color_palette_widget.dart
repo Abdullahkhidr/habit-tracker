@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/color_item_widget.dart';
 
 class PaletteColorsWidget extends StatelessWidget {
-  const PaletteColorsWidget({super.key});
+  final Function(Color) onColorSelected;
+  const PaletteColorsWidget({super.key, required this.onColorSelected});
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<HabitEditorBloc>();
     return Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: kPaddingSmall.vertical),
-        child: Wrap(
-            spacing: kPaddingSmall.horizontal,
-            runSpacing: kPaddingSmall.vertical,
-            children: List.generate(_paletteColors.length,
-                (index) => ColorItemWidget(color: _paletteColors[index]))),
-      ),
-    );
+        alignment: Alignment.center,
+        child: Padding(
+            padding: EdgeInsets.symmetric(vertical: kPaddingSmall.vertical),
+            child: BlocListener<HabitEditorBloc, HabitEditorState>(
+              listener: (context, state) {},
+              listenWhen: (previous, current) =>
+                  current is HabitEditorColorSelectedState,
+              child: Wrap(
+                spacing: kPaddingSmall.horizontal,
+                runSpacing: kPaddingSmall.vertical,
+                children: List.generate(
+                    _paletteColors.length,
+                    (index) => GestureDetector(
+                        onTap: () => onColorSelected(_paletteColors[index]),
+                        child: ColorItemWidget(
+                            color: _paletteColors[index],
+                            isSelected: bloc.habitEntity.color ==
+                                _paletteColors[index]))),
+              ),
+            )));
   }
 }
 

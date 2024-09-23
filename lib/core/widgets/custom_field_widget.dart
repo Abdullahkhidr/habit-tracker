@@ -8,6 +8,7 @@ class CustomFieldWidget extends StatelessWidget {
   final IconData? leadingIcon;
   final IconData? trailingIcon;
   final Function()? onTap;
+  final bool readOnly;
   const CustomFieldWidget({
     super.key,
     this.leadingIcon,
@@ -15,12 +16,15 @@ class CustomFieldWidget extends StatelessWidget {
     this.onTap,
     required this.hint,
     this.controller,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: onTap,
       controller: controller,
+      readOnly: readOnly,
       decoration: InputDecoration(
           hintStyle: TextStyles.b4.copyWith(color: kSecondaryColor),
           hintText: hint,
