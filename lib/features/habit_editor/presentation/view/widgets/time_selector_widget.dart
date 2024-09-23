@@ -12,28 +12,24 @@ class TimeSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HabitEditorBloc>();
-    return BlocListener<HabitEditorBloc, HabitEditorState>(
-        listener: (context, state) {},
-        listenWhen: (previous, current) =>
-            current is HabitEditorSwitchRemainderState,
-        child: Column(
-          children: [
-            SwitchWidget(
-                title: 'Set Remainder',
-                value: bloc.habitEntity.remainder != null,
-                onChanged: (value) {
-                  bloc.add(HabitEditorRemainderSwitchEvent());
-                }),
-            if (bloc.habitEntity.remainder != null)
-              CustomFieldWidget(
-                  onTap: () => bloc.add(HabitEditorSelectRemainderTimeEvent()),
-                  readOnly: true,
-                  controller: TextEditingController(
-                      text: bloc.habitEntity.remainder!.format(context)),
-                  hint: 'Time',
-                  leadingIcon: HugeIcons.strokeRoundedTime03,
-                  trailingIcon: HugeIcons.strokeRoundedEdit02),
-          ],
-        ));
+    return Column(
+      children: [
+        SwitchWidget(
+            title: 'Set Remainder',
+            value: bloc.habitEntity.remainder != null,
+            onChanged: (value) {
+              bloc.add(HabitEditorRemainderSwitchEvent());
+            }),
+        if (bloc.habitEntity.remainder != null)
+          CustomFieldWidget(
+              onTap: () => bloc.add(HabitEditorSelectRemainderTimeEvent()),
+              readOnly: true,
+              controller: TextEditingController(
+                  text: bloc.habitEntity.remainder!.format(context)),
+              hint: 'Time',
+              leadingIcon: HugeIcons.strokeRoundedTime03,
+              trailingIcon: HugeIcons.strokeRoundedEdit02),
+      ],
+    );
   }
 }

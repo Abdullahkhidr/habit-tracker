@@ -8,7 +8,10 @@ class CustomFieldWidget extends StatelessWidget {
   final IconData? leadingIcon;
   final IconData? trailingIcon;
   final Function()? onTap;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final bool readOnly;
+  final int? maxLines;
   const CustomFieldWidget({
     super.key,
     this.leadingIcon,
@@ -17,6 +20,9 @@ class CustomFieldWidget extends StatelessWidget {
     required this.hint,
     this.controller,
     this.readOnly = false,
+    this.keyboardType,
+    this.textInputAction,
+    this.maxLines,
   });
 
   @override
@@ -25,6 +31,9 @@ class CustomFieldWidget extends StatelessWidget {
       onTap: onTap,
       controller: controller,
       readOnly: readOnly,
+      maxLines: maxLines,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           hintStyle: TextStyles.b4.copyWith(color: kSecondaryColor),
           hintText: hint,

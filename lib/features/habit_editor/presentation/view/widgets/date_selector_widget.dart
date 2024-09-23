@@ -12,28 +12,23 @@ class DueDateSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HabitEditorBloc>();
-    return BlocListener<HabitEditorBloc, HabitEditorState>(
-        listener: (context, state) {},
-        listenWhen: (previous, current) =>
-            current is HabitEditorSelectedDueDateState,
-        child: Column(
-          children: [
-            SwitchWidget(
-              title: 'End Habit On',
-              value: bloc.habitEntity.dueDate != null,
-              onChanged: (value) => bloc.add(HabitEditorDueDateSwitchEvent()),
-            ),
-            if (bloc.habitEntity.dueDate != null)
-              CustomFieldWidget(
-                  readOnly: true,
-                  onTap: () => bloc.add(HabitEditorSelectDueDateEvent()),
-                  controller: TextEditingController(
-                      text: DateFormat.yMMMMd()
-                          .format(bloc.habitEntity.dueDate!)),
-                  hint: 'End Date',
-                  leadingIcon: HugeIcons.strokeRoundedCalendar03,
-                  trailingIcon: HugeIcons.strokeRoundedEdit02),
-          ],
-        ));
+    return Column(
+      children: [
+        SwitchWidget(
+          title: 'End Habit On',
+          value: bloc.habitEntity.dueDate != null,
+          onChanged: (value) => bloc.add(HabitEditorDueDateSwitchEvent()),
+        ),
+        if (bloc.habitEntity.dueDate != null)
+          CustomFieldWidget(
+              readOnly: true,
+              onTap: () => bloc.add(HabitEditorSelectDueDateEvent()),
+              controller: TextEditingController(
+                  text: DateFormat.yMMMMd().format(bloc.habitEntity.dueDate!)),
+              hint: 'End Date',
+              leadingIcon: HugeIcons.strokeRoundedCalendar03,
+              trailingIcon: HugeIcons.strokeRoundedEdit02),
+      ],
+    );
   }
 }

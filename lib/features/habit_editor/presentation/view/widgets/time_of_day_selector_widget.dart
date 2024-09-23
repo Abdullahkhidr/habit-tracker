@@ -17,31 +17,26 @@ class TimeOfDaySelectorWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Do it at:', style: TextStyles.h3),
-        BlocListener<HabitEditorBloc, HabitEditorState>(
-          listener: (context, state) {},
-          listenWhen: (previous, current) =>
-              current is HabitEditorSelectedPartOfDayState,
-          child: Row(
-            children: List.generate(
-                PartOfDay.values.length,
-                (index) => Expanded(
-                      child: Padding(
-                        padding:
-                            (index != 0 && index != PartOfDay.values.length - 1)
-                                ? kPaddingSmall
-                                : EdgeInsets.zero,
-                        child: OptionWidget(
-                            title: PartOfDay.values[index].name.capitalize,
-                            isSelected: bloc.habitEntity.partOfDay ==
-                                PartOfDay.values[index],
-                            unSelectedBackgroundColor: kBackgroundColor,
-                            borderRadius: kBorderRadiusCircular,
-                            onSelect: () => bloc.add(
-                                HabitEditorSelectPartOfDayEvent(
-                                    value: PartOfDay.values[index]))),
-                      ),
-                    )),
-          ),
+        Row(
+          children: List.generate(
+              PartOfDay.values.length,
+              (index) => Expanded(
+                    child: Padding(
+                      padding:
+                          (index != 0 && index != PartOfDay.values.length - 1)
+                              ? kPaddingSmall
+                              : EdgeInsets.zero,
+                      child: OptionWidget(
+                          title: PartOfDay.values[index].name.capitalize,
+                          isSelected: bloc.habitEntity.partOfDay ==
+                              PartOfDay.values[index],
+                          unSelectedBackgroundColor: kBackgroundColor,
+                          borderRadius: kBorderRadiusCircular,
+                          onSelect: () => bloc.add(
+                              HabitEditorSelectPartOfDayEvent(
+                                  value: PartOfDay.values[index]))),
+                    ),
+                  )),
         ),
       ],
     );

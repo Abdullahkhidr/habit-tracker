@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/methods/pick_date.dart';
+import 'package:habit_tracker/core/methods/pick_time.dart';
 import 'package:habit_tracker/core/methods/show_message.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/repeat_type.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habit_use_case.dart';
-import 'package:habit_tracker/main.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';
@@ -22,9 +24,7 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
     });
 
     on<HabitEditorSelectRemainderTimeEvent>((event, emit) async {
-      var selectedTime = await showTimePicker(
-          context: context,
-          initialTime: habitEntity.remainder ?? TimeOfDay.now());
+      TimeOfDay? selectedTime = await pickTime(habitEntity.remainder);
       if (selectedTime != null) {
         habitEntity.remainder = selectedTime;
         emit(HabitEditorSelectedTimeRemainderState(time: selectedTime));
@@ -32,15 +32,19 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
     });
 
     on<HabitEditorSelectDueDateEvent>((event, emit) async {
-      var selectedDate = await showDatePicker(
-          context: context,
-          initialDate: habitEntity.dueDate ?? DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime(2500));
+      DateTime? selectedDate = await pickDate(habitEntity.dueDate);
       if (selectedDate != null) {
         habitEntity.dueDate = selectedDate;
         emit(HabitEditorSelectedDueDateState(date: selectedDate));
       }
+    });
+
+    on<HabitEditorChangeHabitTypeEvent>((event, emit) {
+      habitEntity.type = event.type;
+      if (habitEntity.type == HabitType.oneTimeTask) {
+        habitEntity.when = DateTime.now().add(const Duration(days: 1));
+      }
+      emit(HabitEditorChangedHabitTypeState(habitType: event.type));
     });
 
     on<HabitEditorChangeIconEvent>((event, emit) {
@@ -64,14 +68,17 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       habitEntity.partOfDay = event.value;
       emit(HabitEditorSelectedPartOfDayState(partOfDay: event.value));
     });
+
     on<HabitEditorChangeRepeatTypeEvent>((event, emit) {
       habitEntity.repeatingType = event.value;
       habitEntity.repeatingDays.clear();
       emit(HabitEditorChangeRepeatTypeState(repeatType: event.value));
     });
+
     on<HabitEditorRepeatDaysSelectedEvent>((event, emit) {
       habitEntity.repeatingDays = event.days;
     });
+
     on<HabitEditorSaveEvent>((event, emit) async {
       habitEntity.title = titleController.text.trim();
       habitEntity.description = descriptionController.text.trim();
@@ -83,6 +90,20 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       }, (r) {
         showMessage('Saved Successfully', messageType: MessageType.success);
       });
+    });
+
+    on<HabitEditorSelectDateTimeOfOnTimeTaskEvent>((event, emit) async {
+      DateTime? selectedDate = await pickDate(habitEntity.when);
+      if (selectedDate != null) {
+        TimeOfDay? selectedTime =
+            await pickTime(TimeOfDay.fromDateTime(habitEntity.when!));
+        if (selectedTime != null) {
+          DateTime when = DateTime(selectedDate.year, selectedDate.month,
+              selectedDate.day, selectedTime.hour, selectedTime.minute);
+          habitEntity.when = when;
+          emit(HabitEditorSelectDateTimeOfOnTimeTaskState(dateTime: when));
+        }
+      }
     });
   }
 

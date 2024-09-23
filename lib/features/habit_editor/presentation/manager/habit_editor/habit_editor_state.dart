@@ -44,3 +44,14 @@ final class HabitEditorChangeIconState extends HabitEditorState {
   final String icon;
   HabitEditorChangeIconState({required this.icon});
 }
+
+final class HabitEditorChangedHabitTypeState extends HabitEditorState {
+  final HabitType habitType;
+  HabitEditorChangedHabitTypeState({required this.habitType});
+}
+
+final class HabitEditorSelectDateTimeOfOnTimeTaskState
+    extends HabitEditorState {
+  final DateTime dateTime;
+  HabitEditorSelectDateTimeOfOnTimeTaskState({required this.dateTime});
+}

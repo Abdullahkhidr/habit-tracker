@@ -14,24 +14,20 @@ class PaletteColorsWidget extends StatelessWidget {
     return Align(
         alignment: Alignment.center,
         child: Padding(
-            padding: EdgeInsets.symmetric(vertical: kPaddingSmall.vertical),
-            child: BlocListener<HabitEditorBloc, HabitEditorState>(
-              listener: (context, state) {},
-              listenWhen: (previous, current) =>
-                  current is HabitEditorColorSelectedState,
-              child: Wrap(
-                spacing: kPaddingSmall.horizontal,
-                runSpacing: kPaddingSmall.vertical,
-                children: List.generate(
-                    _paletteColors.length,
-                    (index) => GestureDetector(
-                        onTap: () => onColorSelected(_paletteColors[index]),
-                        child: ColorItemWidget(
-                            color: _paletteColors[index],
-                            isSelected: bloc.habitEntity.color ==
-                                _paletteColors[index]))),
-              ),
-            )));
+          padding: EdgeInsets.symmetric(vertical: kPaddingSmall.vertical),
+          child: Wrap(
+            spacing: kPaddingSmall.horizontal,
+            runSpacing: kPaddingSmall.vertical,
+            children: List.generate(
+                _paletteColors.length,
+                (index) => GestureDetector(
+                    onTap: () => onColorSelected(_paletteColors[index]),
+                    child: ColorItemWidget(
+                        color: _paletteColors[index],
+                        isSelected:
+                            bloc.habitEntity.color == _paletteColors[index]))),
+          ),
+        ));
   }
 }
 

@@ -6,9 +6,11 @@ import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/custom_button_widget.dart';
 import 'package:habit_tracker/core/widgets/custom_field_widget.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/color_palette_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/date_selector_widget.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/date_time_task_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/icon_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/repeat_section_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/select_type_of_habit_widget.dart';
@@ -20,7 +22,7 @@ class HabitEditorViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<HabitEditorBloc>();
+    final bloc = context.watch<HabitEditorBloc>();
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -34,39 +36,41 @@ class HabitEditorViewBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SelectTypeOfHabitWidget(),
+                  const TypeHabitSelectorWidget(),
                   const Gap(kSpaceLarge),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: kPaddingSmall.vertical),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Habit Title', style: TextStyles.h3),
-                          const Gap(kSpaceSmall),
-                          CustomFieldWidget(
-                              hint: 'Habit Title',
-                              controller: bloc.titleController),
-                          const Gap(kSpaceSmall),
-                          const Text('Description (Optional)',
-                              style: TextStyles.h3),
-                          const Gap(kSpaceSmall),
-                          CustomFieldWidget(
-                              hint: 'Description',
-                              controller: bloc.descriptionController)
-                        ],
-                      )),
+                  const Text('Habit Title', style: TextStyles.h3),
+                  const Gap(kSpaceLarge),
+                  CustomFieldWidget(
+                      textInputAction: TextInputAction.next,
+                      hint: 'Habit Title',
+                      controller: bloc.titleController),
+                  const Gap(kSpaceSmall),
+                  const Text('Description (Optional)', style: TextStyles.h3),
+                  const Gap(kSpaceSmall),
+                  CustomFieldWidget(
+                      maxLines: 4,
+                      textInputAction: TextInputAction.newline,
+                      hint: 'Description',
+                      controller: bloc.descriptionController),
+                  const Gap(kSpaceLarge),
                   const Text('Icon', style: TextStyles.h3),
                   const IconSelectorWidget(),
                   const Text('Color', style: TextStyles.h3),
                   PaletteColorsWidget(
                       onColorSelected: (color) => bloc
                           .add(HabitEditorColorSelectedEvent(color: color))),
-                  const RepeatSectionWidget(),
-                  const Gap(kSpaceLarge),
-                  const TimeOfDaySelectorWidget(),
-                  const DueDateSelectorWidget(),
-                  const TimeSelectorWidget(),
+                  if (bloc.habitEntity.type == HabitType.regularHabit)
+                    const Column(
+                      children: [
+                        RepeatSectionWidget(),
+                        Gap(kSpaceLarge),
+                        TimeOfDaySelectorWidget(),
+                        DueDateSelectorWidget(),
+                        TimeSelectorWidget(),
+                      ],
+                    )
+                  else
+                    DateTimeTaskSelectorWidget(bloc: bloc),
                   const Gap(kSpaceMedium),
                   CustomButtonWidget(
                       title: 'Save',

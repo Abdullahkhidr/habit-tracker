@@ -8,6 +8,11 @@ class HabitEditorColorSelectedEvent extends HabitEditorEvent {
   HabitEditorColorSelectedEvent({required this.color});
 }
 
+class HabitEditorChangeHabitTypeEvent extends HabitEditorEvent {
+  final HabitType type;
+  HabitEditorChangeHabitTypeEvent({required this.type});
+}
+
 class HabitEditorRemainderSwitchEvent extends HabitEditorEvent {}
 
 class HabitEditorSelectRemainderTimeEvent extends HabitEditorEvent {}
@@ -42,3 +47,5 @@ class HabitEditorRepeatDaysSelectedEvent extends HabitEditorEvent {
 }
 
 class HabitEditorSaveEvent extends HabitEditorEvent {}
+
+class HabitEditorSelectDateTimeOfOnTimeTaskEvent extends HabitEditorEvent {}

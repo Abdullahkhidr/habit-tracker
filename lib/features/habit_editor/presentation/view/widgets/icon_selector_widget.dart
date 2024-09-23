@@ -11,19 +11,14 @@ class IconSelectorWidget extends StatelessWidget {
     final bloc = context.watch<HabitEditorBloc>();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: BlocListener<HabitEditorBloc, HabitEditorState>(
-        listener: (context, state) {},
-        listenWhen: (previous, current) =>
-            current is HabitEditorChangeIconState,
-        child: Row(
-          children: List.from(emojis)
-              .map((emoji) => EmojiIconWidget(
-                  onTap: (icon) =>
-                      bloc.add(HabitEditorChangeIconEvent(icon: icon)),
-                  emoji: emoji,
-                  isSelected: bloc.habitEntity.icon == emoji))
-              .toList(),
-        ),
+      child: Row(
+        children: List.from(emojis)
+            .map((emoji) => EmojiIconWidget(
+                onTap: (icon) =>
+                    bloc.add(HabitEditorChangeIconEvent(icon: icon)),
+                emoji: emoji,
+                isSelected: bloc.habitEntity.icon == emoji))
+            .toList(),
       ),
     );
   }

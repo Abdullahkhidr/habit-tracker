@@ -34,6 +34,8 @@ class HabitEntity {
   DateTime? dueDate;
   @HiveField(12)
   TimeOfDay? remainder;
+  @HiveField(13)
+  DateTime? when;
 
   HabitEntity(
       {required this.id,
@@ -48,7 +50,8 @@ class HabitEntity {
       required this.repeatingDays,
       required this.partOfDay,
       this.dueDate,
-      this.remainder});
+      this.remainder,
+      this.when});
 
   factory HabitEntity.empty() => HabitEntity(
         id: '',
@@ -66,6 +69,6 @@ class HabitEntity {
 
   @override
   String toString() {
-    return 'HabitEntity(id: $id, title: $title, description: $description, type: $type, color: $color, icon: $icon, createdAt: $createdAt, updatedAt: $updatedAt, repeatingType: $repeatingType, repeatingDays: $repeatingDays, partOfDay: $partOfDay, dueDate: $dueDate, remainder: $remainder)';
+    return 'HabitEntity(id: $id, title: $title, description: $description, type: $type, when: $when , color: $color, icon: $icon, createdAt: $createdAt, updatedAt: $updatedAt, repeatingType: $repeatingType, repeatingDays: $repeatingDays, partOfDay: $partOfDay, dueDate: $dueDate, remainder: $remainder)';
   }
 }

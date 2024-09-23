@@ -22,21 +22,16 @@ class RepeatSectionWidget extends StatelessWidget {
         const Gap(kSpaceMedium),
         const TypeOfRepeatSelectorWidget(),
         const Gap(kSpaceMedium),
-        BlocListener<HabitEditorBloc, HabitEditorState>(
-          listener: (context, state) {},
-          listenWhen: (previous, current) =>
-              current is HabitEditorChangeRepeatTypeState,
-          child: (bloc.habitEntity.repeatingType == RepeatType.weekly)
-              ? ChooseDaysOfWeekWidget(
-                  onChangeSelectionDays: (selected) {
-                    bloc.add(
-                        HabitEditorRepeatDaysSelectedEvent(days: selected));
-                  },
-                )
-              : ChooseDaysOfMonthWidget(onChangeSelectionDays: (days) {
-                  bloc.add(HabitEditorRepeatDaysSelectedEvent(days: days));
-                }),
-        ),
+        if (bloc.habitEntity.repeatingType == RepeatType.weekly)
+          ChooseDaysOfWeekWidget(
+            onChangeSelectionDays: (selected) {
+              bloc.add(HabitEditorRepeatDaysSelectedEvent(days: selected));
+            },
+          )
+        else
+          ChooseDaysOfMonthWidget(onChangeSelectionDays: (days) {
+            bloc.add(HabitEditorRepeatDaysSelectedEvent(days: days));
+          }),
       ],
     );
   }
