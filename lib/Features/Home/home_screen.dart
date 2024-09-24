@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/methods/show_message.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/Home/widgets/complete_task_item_widget.dart';
-import 'package:habit_tracker/features/Home/widgets/duration_filter_button.dart';
+import 'package:habit_tracker/features/Home/widgets/filter_time_widget.dart';
 import 'package:habit_tracker/features/Home/widgets/part_of_day_filter_button.dart';
 import 'package:habit_tracker/features/Home/widgets/task_item_widget.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 import '../../core/utils/constants.dart';
 
@@ -21,35 +24,33 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedTimeFilterIndex = 0;
   int selectedMainFilterIndex = 0;
 
-  List<Habit> habits = [
-    Habit(label: 'Set Small Goals', color: Colors.pink.shade200),
-    Habit(label: 'Work', color: Colors.purple.shade200),
-    Habit(label: 'Meditation', color: Colors.green.shade200),
-    Habit(label: 'Basketball', color: Colors.orange.shade200),
-  ];
+  List<HabitEntity> habits = [];
 
-  List<Habit> completedHabits = [
-    Habit(label: 'Set Small Goals', color: Colors.pink.shade200),
-    Habit(label: 'Work', color: Colors.purple.shade200),
-  ];
-  List<String> timeFilters = ['Today', 'Weekly', 'Overall'];
+  List<HabitEntity> completedHabits = [];
   List<String> partOfDayFilters = ['All', 'Morning', 'Afternoon', 'Evening'];
 
-  void completeHabit(int index) {
+  void completeTask(int index) {
     setState(() {
       completedHabits.add(habits[index]);
       habits.removeAt(index);
     });
-    showMessage('${completedHabits.last.label} marked as complete',
+    showMessage('${completedHabits.last.title} marked as complete',
         messageType: MessageType.success);
   }
 
-  void deleteHabit(int index) {
+  void deleteTask(int index) {
+    showMessage('${habits[index].title} deleted',
+        messageType: MessageType.warning);
     setState(() {
       habits.removeAt(index);
     });
-    showMessage('${habits[index].label} deleted',
-        messageType: MessageType.warning);
+  }
+
+  @override
+  void initState() {
+    Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
+    habits = box.values.toList();
+    super.initState();
   }
 
   @override
@@ -61,30 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             const SliverAppBar(title: Text('Home')),
             SliverToBoxAdapter(
-              child: Row(
-                children: List.generate(timeFilters.length, (index) {
-                  return Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedMainFilterIndex == index
-                            ? kPrimaryColor
-                            : kHintColor,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: DurationFilterButton(
-                        label: timeFilters[index],
-                        selected: selectedMainFilterIndex == index,
-                        onTap: () {
-                          setState(() {
-                            selectedMainFilterIndex = index;
-                          });
-                        },
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+                child: FilterTimeWidget(
+                    selectedMainFilterIndex: selectedMainFilterIndex,
+                    onSelect: (selected) {
+                      setState(() {
+                        selectedMainFilterIndex = selected;
+                      });
+                    })),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverToBoxAdapter(
               child: Row(
@@ -108,65 +92,45 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverList.builder(
               itemCount: habits.length,
               itemBuilder: (context, index) {
-                return Slidable(
-                  startActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) => completeHabit(index),
-                        backgroundColor: Colors.green,
-                        borderRadius: BorderRadius.circular(16.r),
-                        foregroundColor: Colors.white,
-                        icon: Icons.check,
-                        label: 'Complete',
-                      ),
-                    ],
-                  ),
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) => deleteHabit(index),
-                        backgroundColor: Colors.red,
-                        borderRadius: BorderRadius.circular(16.r),
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
-                      ),
-                    ],
-                  ),
-                  child: TaskItemWidget(
-                    label: habits[index].label,
-                    color: habits[index].color,
+                return Padding(
+                  padding: kPaddingExtraSmall,
+                  child: Slidable(
+                    closeOnScroll: true,
+                    
+                    startActionPane: TaskActionWidget(
+                        icon: HugeIcons.strokeRoundedTaskDone02,
+                        action: () => completeTask(index),
+                        backgroundColor: kSuccessColor),
+                    endActionPane: TaskActionWidget(
+                        icon: HugeIcons.strokeRoundedDelete02,
+                        action: () => deleteTask(index),
+                        backgroundColor: kErrorColor),
+                    child: TaskItemWidget(habitEntity: habits[index]),
                   ),
                 );
               },
             ),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverToBoxAdapter(
-                child: Column(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text('Completed'),
-                    ),
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                  ],
+                Expanded(child: Container(height: 1, color: Colors.grey)),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('Completed'),
                 ),
+                Expanded(child: Container(height: 1, color: Colors.grey)),
               ],
             )),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverList.builder(
                 itemCount: completedHabits.length,
                 itemBuilder: (context, index) {
-                  return CompleteTaskItemWidget(
-                    label: completedHabits[index].label,
-                    icon: Icons.check_circle,
-                    color: Colors.green.shade200,
+                  return Padding(
+                    padding: kPaddingExtraSmall,
+                    child: CompletedTaskItemWidget(
+                        habitEntity: completedHabits[index]),
                   );
                 })
           ],
@@ -174,11 +138,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class Habit {
-  final String label;
-  final Color color;
-
-  Habit({required this.label, required this.color});
 }

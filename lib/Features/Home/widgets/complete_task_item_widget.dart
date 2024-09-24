@@ -1,25 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/features/Home/widgets/task_item_widget.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 
-class CompleteTaskItemWidget extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Color color;
-
-  const CompleteTaskItemWidget({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.color,
-  });
+class CompletedTaskItemWidget extends StatelessWidget {
+  final HabitEntity habitEntity;
+  const CompletedTaskItemWidget({super.key, required this.habitEntity});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: color,
-      child: ListTile(
-        title: Text(label),
-        trailing: Icon(icon, color: Colors.green),
-      ),
-    );
+    return TaskItemWidget(habitEntity: habitEntity, isCompleted: true);
   }
 }

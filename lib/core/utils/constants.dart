@@ -8,6 +8,7 @@ const Color kOnPrimaryColor = Color(0xFFFFFFFF);
 const Color kSecondaryColor = Color(0xFF6c757d);
 const Color kOnSecondaryColor = Color(0xFF000000);
 const Color kErrorColor = Color(0xFFdc3545);
+const Color kSuccessColor = Color(0xFF23C43B);
 const Color kBackgroundColor = Color(0xffffffff);
 const Color kTextColor = Color(0xFF000000);
 const Color kHintColor = Color(0xFFE6E6E6);
@@ -23,7 +24,8 @@ EdgeInsets kPaddingExtraLarge = EdgeInsets.all(32.w);
 BorderRadius kBorderRadiusSmall = BorderRadius.circular(4.r);
 BorderRadius kBorderRadiusMedium = BorderRadius.circular(8.r);
 BorderRadius kBorderRadiusLarge = BorderRadius.circular(16.r);
-BorderRadius kBorderRadiusCircular = BorderRadius.circular(1000000.r);  // For fully circular
+BorderRadius kBorderRadiusCircular =
+    BorderRadius.circular(1000000.r); // For fully circular
 
 // Spaces
 double kSpaceExtraSmall = 4.w;
