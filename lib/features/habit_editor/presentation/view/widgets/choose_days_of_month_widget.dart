@@ -27,7 +27,7 @@ class _ChooseDaysOfMonthWidgetState extends State<ChooseDaysOfMonthWidget> {
         children: [
           Text('Every month on:',
               style: TextStyles.b3.copyWith(fontWeight: FontWeight.w500)),
-          const Gap(kSpaceLarge),
+          Gap(kSpaceLarge),
           Wrap(
               runSpacing: kPaddingExtraSmall.vertical,
               spacing: kPaddingExtraSmall.horizontal,

@@ -20,7 +20,7 @@ class TypeHabitSwitchWidget extends StatelessWidget {
               title: 'Regular Habit',
               isSelected: habitType == HabitType.regularHabit,
               onSelect: () => onSelect(HabitType.regularHabit))),
-      const Gap(kSpaceSmall),
+      Gap(kSpaceSmall),
       Expanded(
           child: OptionWidget(
               title: 'On-Time Task',

@@ -21,7 +21,7 @@ class DateTimeTaskSelectorWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('When', style: TextStyles.h3),
-        const Gap(kSpaceSmall),
+        Gap(kSpaceSmall),
         CustomFieldWidget(
             onTap: () => bloc.add(HabitEditorSelectDateTimeOfOnTimeTaskEvent()),
             readOnly: true,

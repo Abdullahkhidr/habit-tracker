@@ -19,9 +19,9 @@ class RepeatSectionWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text('Repeat', style: TextStyles.h3),
-        const Gap(kSpaceMedium),
+        Gap(kSpaceMedium),
         const TypeOfRepeatSelectorWidget(),
-        const Gap(kSpaceMedium),
+        Gap(kSpaceMedium),
         if (bloc.habitEntity.repeatingType == RepeatType.weekly)
           ChooseDaysOfWeekWidget(
             onChangeSelectionDays: (selected) {

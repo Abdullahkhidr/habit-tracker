@@ -37,22 +37,22 @@ class HabitEditorViewBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const TypeHabitSelectorWidget(),
-                  const Gap(kSpaceLarge),
+                  Gap(kSpaceLarge),
                   const Text('Habit Title', style: TextStyles.h3),
-                  const Gap(kSpaceLarge),
+                  Gap(kSpaceLarge),
                   CustomFieldWidget(
                       textInputAction: TextInputAction.next,
                       hint: 'Habit Title',
                       controller: bloc.titleController),
-                  const Gap(kSpaceSmall),
+                  Gap(kSpaceSmall),
                   const Text('Description (Optional)', style: TextStyles.h3),
-                  const Gap(kSpaceSmall),
+                  Gap(kSpaceSmall),
                   CustomFieldWidget(
                       maxLines: 4,
                       textInputAction: TextInputAction.newline,
                       hint: 'Description',
                       controller: bloc.descriptionController),
-                  const Gap(kSpaceLarge),
+                  Gap(kSpaceLarge),
                   const Text('Icon', style: TextStyles.h3),
                   const IconSelectorWidget(),
                   const Text('Color', style: TextStyles.h3),
@@ -60,18 +60,18 @@ class HabitEditorViewBody extends StatelessWidget {
                       onColorSelected: (color) => bloc
                           .add(HabitEditorColorSelectedEvent(color: color))),
                   if (bloc.habitEntity.type == HabitType.regularHabit)
-                    const Column(
+                    Column(
                       children: [
-                        RepeatSectionWidget(),
+                        const RepeatSectionWidget(),
                         Gap(kSpaceLarge),
-                        TimeOfDaySelectorWidget(),
-                        DueDateSelectorWidget(),
-                        TimeSelectorWidget(),
+                        const TimeOfDaySelectorWidget(),
+                        const DueDateSelectorWidget(),
+                        const TimeSelectorWidget(),
                       ],
                     )
                   else
                     DateTimeTaskSelectorWidget(bloc: bloc),
-                  const Gap(kSpaceMedium),
+                  Gap(kSpaceMedium),
                   CustomButtonWidget(
                       title: 'Save',
                       onTap: () => bloc.add(HabitEditorSaveEvent())),

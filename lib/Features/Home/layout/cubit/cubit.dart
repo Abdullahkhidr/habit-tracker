@@ -4,7 +4,6 @@ import 'package:habit_tracker/Features/Home/layout/cubit/states.dart';
 
 import '../../../acount.dart';
 import '../../../my_habits.dart';
-import '../../../new_habit.dart';
 import '../../home_screen.dart';
 
 class HabitCubit extends Cubit<HabitStates> {
@@ -16,13 +15,13 @@ class HabitCubit extends Cubit<HabitStates> {
 
   List<String> titles = [
     'Home',
-    'Create',
+    'Mood',
     'My Habits',
     'Account',
   ];
   List<Widget> screens = [
-    HomeScreen(),
-    CreateHabit(),
+    const HomeScreen(),
+    const Text('Mood'),
     MyHabits(),
     Acount(),
   ];
