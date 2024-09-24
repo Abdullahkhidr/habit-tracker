@@ -4,7 +4,7 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Features/Home/layout/cubit/cubit.dart';
-import 'Features/Home/layout/layout.dart';
+import 'Features/Home/layout/navigator_screen.dart';
 
 void main() {
   runApp(
@@ -32,7 +32,7 @@ class HabitTracker extends StatelessWidget {
           navigatorKey: _navigator,
           debugShowCheckedModeBanner: false,
           theme: ThemeData.light().copyWith(
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               type: BottomNavigationBarType.fixed,
               selectedItemColor: kPrimaryColor,
               unselectedItemColor: Colors.grey,
@@ -49,7 +49,7 @@ class HabitTracker extends StatelessWidget {
               error: kErrorColor,
             ),
           ),
-          home: LayoutScreen(),
+          home: const NavigatorScreen(),
         );
       },
     );

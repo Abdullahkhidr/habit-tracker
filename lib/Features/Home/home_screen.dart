@@ -5,6 +5,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../core/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -20,7 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Habit(label: 'Basketball', color: Colors.orange.shade200),
   ];
 
-  List<Habit> completedHabits = [];
+  List<Habit> completedHabits = [
+    Habit(label: 'Set Small Goals', color: Colors.pink.shade200),
+    Habit(label: 'Work', color: Colors.purple.shade200),
+  ];
+  List<String> timeFilters = ['Today', 'Weekly', 'Overall'];
+  List<String> partOfDayFilters = ['All', 'Morning', 'Afternoon', 'Evening'];
 
   void completeHabit(int index) {
     setState(() {
@@ -28,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
       habits.removeAt(index);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${completedHabits.last.label} marked as complete')),
+      SnackBar(
+          content: Text('${completedHabits.last.label} marked as complete')),
     );
   }
 
@@ -37,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       habits.removeAt(index);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Habit deleted')),
+      const SnackBar(content: Text('Habit deleted')),
     );
   }
 
@@ -45,10 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {},
           ),
         ],
@@ -60,114 +68,48 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: kHintColor,
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
-                children: [
-                  Expanded(
+                children: List.generate(timeFilters.length, (index) {
+                  return Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: selectedMainFilterIndex == 0 ? kPrimaryColor : kHintColor,
+                        color: selectedMainFilterIndex == index
+                            ? kPrimaryColor
+                            : kHintColor,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: FilterButton(
-                        label: 'Today',
-                        selected: selectedMainFilterIndex == 0,
+                      child: DurationFilterButton(
+                        label: timeFilters[index],
+                        selected: selectedMainFilterIndex == index,
                         onTap: () {
                           setState(() {
-                            selectedMainFilterIndex = 0;
+                            selectedMainFilterIndex = index;
                           });
                         },
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedMainFilterIndex == 1 ? kPrimaryColor : kHintColor,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: FilterButton(
-                        label: 'Weekly',
-                        selected: selectedMainFilterIndex == 1,
-                        onTap: () {
-                          setState(() {
-                            selectedMainFilterIndex = 1;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedMainFilterIndex == 2 ? kPrimaryColor : kHintColor,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: FilterButton(
-                        label: 'Overall',
-                        selected: selectedMainFilterIndex == 2,
-                        onTap: () {
-                          setState(() {
-                            selectedMainFilterIndex = 2;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+                  );
+                }),
               ),
             ),
-
-
-
             SizedBox(height: 16.h),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TimeFilterButton(
-                  label: 'All',
-                  selected: selectedTimeFilterIndex == 0,
+              children: List.generate(partOfDayFilters.length, (index) {
+                return PartOfDayFilterButton(
+                  label: partOfDayFilters[index],
+                  selected: selectedTimeFilterIndex == index,
                   onTap: () {
                     setState(() {
-                      selectedTimeFilterIndex = 0;
+                      selectedTimeFilterIndex = index;
                     });
                   },
-                ),
-                TimeFilterButton(
-                  label: 'Morning',
-                  selected: selectedTimeFilterIndex == 1,
-                  onTap: () {
-                    setState(() {
-                      selectedTimeFilterIndex = 1;
-                    });
-                  },
-                ),
-                TimeFilterButton(
-                  label: 'Afternoon',
-                  selected: selectedTimeFilterIndex == 2,
-                  onTap: () {
-                    setState(() {
-                      selectedTimeFilterIndex = 2;
-                    });
-                  },
-                ),
-                TimeFilterButton(
-                  label: 'Evening',
-                  selected: selectedTimeFilterIndex == 3,
-                  onTap: () {
-                    setState(() {
-                      selectedTimeFilterIndex = 3;
-                    });
-                  },
-                ),
-              ],
+                );
+              }),
             ),
-
             SizedBox(height: 16.h),
-
             Expanded(
               child: ListView.builder(
                 itemCount: habits.length + 1,
@@ -175,13 +117,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (index < habits.length) {
                     return Slidable(
                       startActionPane: ActionPane(
-                        motion: ScrollMotion(),
+                        motion: const ScrollMotion(),
                         children: [
                           SlidableAction(
                             onPressed: (context) => completeHabit(index),
                             backgroundColor: Colors.green,
                             borderRadius: BorderRadius.circular(16.r),
-
                             foregroundColor: Colors.white,
                             icon: Icons.check,
                             label: 'Complete',
@@ -189,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       endActionPane: ActionPane(
-                        motion: ScrollMotion(),
+                        motion: const ScrollMotion(),
                         children: [
                           SlidableAction(
                             onPressed: (context) => deleteHabit(index),
@@ -219,8 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.grey,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text('Completed'),
                             ),
                             Expanded(
@@ -238,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.check_circle,
                             color: Colors.green.shade200,
                           );
-                        }).toList(),
+                        }),
                       ],
                     );
                   }
@@ -252,12 +193,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class FilterButton extends StatelessWidget {
+class DurationFilterButton extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
 
-  const FilterButton({
+  const DurationFilterButton({
+    super.key,
     required this.label,
     required this.selected,
     required this.onTap,
@@ -279,12 +221,13 @@ class FilterButton extends StatelessWidget {
   }
 }
 
-class TimeFilterButton extends StatelessWidget {
+class PartOfDayFilterButton extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
 
-  const TimeFilterButton({
+  const PartOfDayFilterButton({
+    super.key,
     required this.label,
     required this.selected,
     required this.onTap,
@@ -307,10 +250,7 @@ class TimeFilterButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(
-        label,
-        style: TextStyle(fontSize: 14.sp),
-      ),
+      child: Text(label, style: TextStyle(fontSize: 14.sp)),
     );
   }
 }
@@ -327,6 +267,7 @@ class HabitCard extends StatelessWidget {
   final Color color;
 
   const HabitCard({
+    super.key,
     required this.label,
     required this.color,
   });
@@ -335,15 +276,14 @@ class HabitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: color,
-      child: Container(
-        height: 73.h,
-        child: ListTile(
-          title: Text(
-            label,
-            style: TextStyle(
-              color: kTextColor,
-              fontSize: 18.sp,
-            ),
+      child: ListTile(
+        contentPadding: kPaddingExtraSmall.copyWith(
+            left: kPaddingMedium.left, right: kPaddingMedium.right),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: kTextColor,
+            fontSize: 18.sp,
           ),
         ),
       ),
@@ -357,6 +297,7 @@ class CompletedCard extends StatelessWidget {
   final Color color;
 
   const CompletedCard({
+    super.key,
     required this.label,
     required this.icon,
     required this.color,
@@ -366,12 +307,9 @@ class CompletedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: color,
-      child: Container(
-        height: 73.h,
-        child: ListTile(
-          title: Text(label),
-          trailing: Icon(icon, color: Colors.green),
-        ),
+      child: ListTile(
+        title: Text(label),
+        trailing: Icon(icon, color: Colors.green),
       ),
     );
   }
