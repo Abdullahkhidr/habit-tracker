@@ -23,12 +23,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedTimeFilterIndex = 0;
   int selectedMainFilterIndex = 0;
-
   List<HabitEntity> habits = [];
-
   List<HabitEntity> completedHabits = [];
   List<String> partOfDayFilters = ['All', 'Morning', 'Afternoon', 'Evening'];
-
   void completeTask(int index) {
     setState(() {
       completedHabits.add(habits[index]);
@@ -45,12 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
       habits.removeAt(index);
     });
   }
-
   @override
   void initState() {
     Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
     habits = box.values.toList();
     super.initState();
+  }
+
+  List<HabitEntity> filterHabits() {
+    if (partOfDayFilters[selectedTimeFilterIndex] == 'Morning') {
+      return habits.where((habit) => habit.partOfDay == 'Morning').toList();
+    } else if (partOfDayFilters[selectedTimeFilterIndex] == 'Afternoon') {
+      return habits.where((habit) => habit.partOfDay == 'Afternoon').toList();
+    } else if (partOfDayFilters[selectedTimeFilterIndex] == 'Evening') {
+      return habits.where((habit) => habit.partOfDay == 'Evening').toList();
+    }
+    return habits;
   }
 
   @override
@@ -90,13 +97,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverList.builder(
-              itemCount: habits.length,
+              itemCount: filterHabits().length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: kPaddingExtraSmall,
                   child: Slidable(
                     closeOnScroll: true,
-                    
                     startActionPane: TaskActionWidget(
                         icon: HugeIcons.strokeRoundedTaskDone02,
                         action: () => completeTask(index),
@@ -105,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: HugeIcons.strokeRoundedDelete02,
                         action: () => deleteTask(index),
                         backgroundColor: kErrorColor),
-                    child: TaskItemWidget(habitEntity: habits[index]),
+                    child: TaskItemWidget(habitEntity: filterHabits()[index]),
                   ),
                 );
               },
@@ -113,29 +119,31 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverToBoxAdapter(
                 child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: Container(height: 1, color: Colors.grey)),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text('Completed'),
-                ),
-                Expanded(child: Container(height: 1, color: Colors.grey)),
-              ],
-            )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(child: Container(height: 1, color: Colors.grey)),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Completed'),
+                    ),
+                    Expanded(child: Container(height: 1, color: Colors.grey)),
+                  ],
+                )),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverList.builder(
-                itemCount: completedHabits.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: kPaddingExtraSmall,
-                    child: CompletedTaskItemWidget(
-                        habitEntity: completedHabits[index]),
-                  );
-                })
+              itemCount: completedHabits.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: kPaddingExtraSmall,
+                  child: CompletedTaskItemWidget(
+                      habitEntity: completedHabits[index]),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
+

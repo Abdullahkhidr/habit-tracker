@@ -21,7 +21,7 @@ class FilterTimeWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color:
                   selectedMainFilterIndex == index ? kPrimaryColor : kHintColor,
-              borderRadius: BorderRadius.circular(8.r),
+
             ),
             child: DurationFilterButton(
                 label: timeFilters[index],

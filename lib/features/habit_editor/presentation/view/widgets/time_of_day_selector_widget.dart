@@ -20,6 +20,7 @@ class TimeOfDaySelectorWidget extends StatelessWidget {
         Row(
           children: List.generate(
               PartOfDay.values.length,
+
               (index) => Expanded(
                     child: Padding(
                       padding:
