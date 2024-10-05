@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habit_tracker/Features/Home/widgets/task_item_widget.dart';
-import 'package:habit_tracker/Features/my_habits/EditHabitPage.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/my_habits/edit_habit_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class MyHabits extends StatefulWidget {
@@ -51,7 +51,8 @@ class _MyHabitsState extends State<MyHabits> {
     if (updatedHabit != null) {
       setState(() {
         habits[index] = updatedHabit;
-        box.put(updatedHabit.id, updatedHabit); // Update the habit in the Hive box
+        box.put(
+            updatedHabit.id, updatedHabit); // Update the habit in the Hive box
       });
     }
   }
@@ -65,21 +66,17 @@ class _MyHabitsState extends State<MyHabits> {
           slivers: [
             const SliverAppBar(
               title: Text('My Habits'),
-            
               floating: true,
               pinned: true,
             ),
-            SliverToBoxAdapter(child: Gap(kSpaceLarge)), // Add any additional widgets or gaps if needed
-            habits.isEmpty // Check if habits list is empty
-                ? const SliverToBoxAdapter(
-                    child: Center(child: Text('No habits found.')),
-                  )
+            SliverToBoxAdapter(child: Gap(kSpaceLarge)),
+            habits.isEmpty
+                ? const SliverFillRemaining(
+                    child: Center(child: Text('No habits found.')))
                 : SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final habit = habits[index];
-                        const isCompleted = false; // Replace with your completion logic
-
                         return Padding(
                           padding: kPaddingExtraSmall,
                           child: Slidable(
@@ -96,9 +93,7 @@ class _MyHabitsState extends State<MyHabits> {
                               ],
                             ),
                             child: TaskItemWidget(
-                              habitEntity: habit,
-                              isCompleted: isCompleted,
-                            ),
+                                habitEntity: habit, isCompleted: false),
                           ),
                         );
                       },

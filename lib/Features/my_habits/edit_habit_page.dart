@@ -15,10 +15,10 @@ class EditHabitPage extends StatefulWidget {
   final VoidCallback onHabitDeleted;
 
   const EditHabitPage({
-    Key? key,
+    super.key,
     required this.habit,
     required this.onHabitDeleted,
-  }) : super(key: key);
+  });
 
   @override
   _EditHabitPageState createState() => _EditHabitPageState();
@@ -31,8 +31,8 @@ class _EditHabitPageState extends State<EditHabitPage> {
 
   // Example list of completed days; in a real app, fetch this from storage or state
   List<DateTime> completedDays = [
-    DateTime.now().subtract(Duration(days: 1)),
-    DateTime.now().subtract(Duration(days: 3)),
+    DateTime.now().subtract(const Duration(days: 1)),
+    DateTime.now().subtract(const Duration(days: 3)),
     // Add more dates as needed
   ];
 
@@ -40,7 +40,8 @@ class _EditHabitPageState extends State<EditHabitPage> {
   void initState() {
     super.initState();
     titleController = TextEditingController(text: widget.habit.title);
-    descriptionController = TextEditingController(text: widget.habit.description);
+    descriptionController =
+        TextEditingController(text: widget.habit.description);
   }
 
   @override
@@ -87,8 +88,10 @@ class _EditHabitPageState extends State<EditHabitPage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: const Text('Edit Habit', style: TextStyle(color: kOnSecondaryColor)),
-              floating: true, // Allows the app bar to be visible while scrolling
+              title: const Text('Edit Habit',
+                  style: TextStyle(color: kOnSecondaryColor)),
+              floating:
+                  true, // Allows the app bar to be visible while scrolling
               actions: [
                 IconButton(
                   icon: Icon(isEditing ? Icons.save : Icons.edit),
@@ -124,22 +127,26 @@ class _EditHabitPageState extends State<EditHabitPage> {
                         titleController: titleController,
                         descriptionController: descriptionController,
                         habitTitle: widget.habit.title, // Pass the title here
-                        habitDescription: widget.habit.description, // Pass the description here
+                        habitDescription: widget
+                            .habit.description, // Pass the description here
                       ),
-                    //  Gap(kSpaceMedium),
+                      //  Gap(kSpaceMedium),
                       const HabitStatistics(),
-                      Gap(kSpaceExtraLarge), 
+                      Gap(kSpaceExtraLarge),
                       const Text('Calendar Stats', style: TextStyles.h2),
                       Gap(kSpaceLarge),
                       SizedBox(
-                        height: 400, // Set a fixed height for the CalendarCarousel
+                        height:
+                            400, // Set a fixed height for the CalendarCarousel
                         child: CalendarCarousel<Event>(
                           todayButtonColor: kPrimaryColor,
                           // todayBorderColor: kPrimaryColor,
                           selectedDayButtonColor: kPrimaryColor,
                           selectedDayBorderColor: kPrimaryColor,
-                          weekendTextStyle: const TextStyle(color: kPrimaryColor),
-                          weekdayTextStyle: const TextStyle(color: kPrimaryColor),
+                          weekendTextStyle:
+                              const TextStyle(color: kPrimaryColor),
+                          weekdayTextStyle:
+                              const TextStyle(color: kPrimaryColor),
                           thisMonthDayBorderColor: Colors.grey,
                           selectedDateTime: DateTime.now(),
                           daysHaveCircularBorder: true,
@@ -147,10 +154,12 @@ class _EditHabitPageState extends State<EditHabitPage> {
                           markedDateShowIcon: true,
                           markedDateIconBuilder: (event) {
                             return Container(
-                              width: 50,  // Set the width
-                              height: 50,  // Set the height
+                              width: 50, // Set the width
+                              height: 50, // Set the height
                               decoration: BoxDecoration(
-                                color: event.title == 'Completed' ? const Color.fromARGB(113, 0, 125, 167) : Colors.red[200],
+                                color: event.title == 'Completed'
+                                    ? const Color.fromARGB(113, 0, 125, 167)
+                                    : Colors.red[200],
                                 shape: BoxShape.circle,
                               ),
                             );
@@ -173,7 +182,9 @@ class _EditHabitPageState extends State<EditHabitPage> {
     final markedDates = EventList<Event>(
       events: {
         for (var day in completedDays)
-          DateTime(day.year, day.month, day.day): [Event(date: day, title: 'Completed')],
+          DateTime(day.year, day.month, day.day): [
+            Event(date: day, title: 'Completed')
+          ],
       },
     );
     return markedDates;
@@ -183,7 +194,8 @@ class _EditHabitPageState extends State<EditHabitPage> {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)), // Use consistent border radius
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16)), // Use consistent border radius
       ),
       builder: (BuildContext context) {
         return DeleteHabitBottomSheet(

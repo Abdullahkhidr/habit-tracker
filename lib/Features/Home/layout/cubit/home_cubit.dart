@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/features/home/layout/cubit/home_states.dart';
+import 'package:habit_tracker/features/my_habits/my_habits.dart';
 
 import '../../../acount.dart';
-import '../../../my_habits.dart';
 import '../../home_screen.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
@@ -22,7 +22,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Widget> screens = [
     const HomeScreen(),
     const Text('Mood'),
-    MyHabits(),
+    const MyHabits(),
     Acount(),
   ];
 
