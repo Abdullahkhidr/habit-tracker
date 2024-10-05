@@ -1,38 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_tracker/core/helpers/locator.dart';
+import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
 import 'package:habit_tracker/features/my_habits/widgets/delete_habit_bottom_sheet.dart';
 import 'package:habit_tracker/features/my_habits/widgets/habit_deletion_handler.dart';
 import 'package:habit_tracker/features/my_habits/widgets/habit_display_widget.dart';
 import 'package:habit_tracker/features/my_habits/widgets/habit_statistics.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:provider/provider.dart';
 
-class EditHabitPage extends StatefulWidget {
+class DetailsHabitPage extends StatefulWidget {
   final HabitEntity habit;
   final VoidCallback onHabitDeleted;
 
-  const EditHabitPage({
+  const DetailsHabitPage({
     super.key,
     required this.habit,
     required this.onHabitDeleted,
   });
 
   @override
-  _EditHabitPageState createState() => _EditHabitPageState();
+  _DetailsHabitPageState createState() => _DetailsHabitPageState();
 }
 
-class _EditHabitPageState extends State<EditHabitPage> {
+class _DetailsHabitPageState extends State<DetailsHabitPage> {
   late TextEditingController titleController;
   late TextEditingController descriptionController;
   bool isEditing = false; // Variable to track edit mode
 
   // Example list of completed days; in a real app, fetch this from storage or state
   List<DateTime> completedDays = [
-    DateTime.now().subtract(const Duration(days: 1)),
+    DateTime.now().add(const Duration(days: 1)),
+    DateTime.now().subtract(const Duration(days: 2)),
     DateTime.now().subtract(const Duration(days: 3)),
+    DateTime.now().subtract(const Duration(days: 6)),
+    DateTime.now().add(const Duration(days: 9)),
+    DateTime.now().add(const Duration(days: 13)),
     // Add more dates as needed
   ];
 
@@ -88,23 +99,20 @@ class _EditHabitPageState extends State<EditHabitPage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: const Text('Edit Habit',
+              title: const Text('Details',
                   style: TextStyle(color: kOnSecondaryColor)),
-              floating:
-                  true, // Allows the app bar to be visible while scrolling
               actions: [
                 IconButton(
-                  icon: Icon(isEditing ? Icons.save : Icons.edit),
+                  icon: const Icon(HugeIcons.strokeRoundedEdit02),
                   onPressed: () {
-                    if (isEditing) {
-                      saveHabit();
-                    } else {
-                      _toggleEditMode();
-                    }
+                    push(Provider.value(
+                        value: locator.get<HabitEditorBloc>(),
+                        child: HabitEditorView(habitEntity: widget.habit)));
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(HugeIcons.strokeRoundedDelete02,
+                      color: kErrorColor),
                   onPressed: () {
                     _showDeleteOptionsBottomSheet(context);
                   },
@@ -122,16 +130,9 @@ class _EditHabitPageState extends State<EditHabitPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HabitDisplayWidget(
-                        isEditing: isEditing,
-                        titleController: titleController,
-                        descriptionController: descriptionController,
-                        habitTitle: widget.habit.title, // Pass the title here
-                        habitDescription: widget
-                            .habit.description, // Pass the description here
-                      ),
+                      HabitDisplayWidget(habitEntity: widget.habit),
                       //  Gap(kSpaceMedium),
-                      const HabitStatistics(),
+                      HabitStatistics(habitEntity: widget.habit),
                       Gap(kSpaceExtraLarge),
                       const Text('Calendar Stats', style: TextStyles.h2),
                       Gap(kSpaceLarge),
@@ -139,26 +140,34 @@ class _EditHabitPageState extends State<EditHabitPage> {
                         height:
                             400, // Set a fixed height for the CalendarCarousel
                         child: CalendarCarousel<Event>(
-                          todayButtonColor: kPrimaryColor,
+                          // todayButtonColor: kPrimaryColor,
                           // todayBorderColor: kPrimaryColor,
+                          daysTextStyle: GoogleFonts.cairo(
+                              color: kTextColor, fontWeight: FontWeight.bold),
+                          weekendTextStyle: GoogleFonts.cairo(
+                              color: kTextColor, fontWeight: FontWeight.bold),
+                          headerTextStyle: GoogleFonts.cairo(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: TextStyles.h2.fontSize),
+                          weekdayTextStyle: GoogleFonts.cairo(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold),
+                          thisMonthDayBorderColor: kHintColor,
                           selectedDayButtonColor: kPrimaryColor,
                           selectedDayBorderColor: kPrimaryColor,
-                          weekendTextStyle:
-                              const TextStyle(color: kPrimaryColor),
-                          weekdayTextStyle:
-                              const TextStyle(color: kPrimaryColor),
-                          thisMonthDayBorderColor: Colors.grey,
+                          todayTextStyle: GoogleFonts.cairo(
+                              color: kOnPrimaryColor,
+                              fontWeight: FontWeight.bold),
                           selectedDateTime: DateTime.now(),
                           daysHaveCircularBorder: true,
                           markedDatesMap: _getMarkedDates(completedDays),
                           markedDateShowIcon: true,
                           markedDateIconBuilder: (event) {
                             return Container(
-                              width: 50, // Set the width
-                              height: 50, // Set the height
                               decoration: BoxDecoration(
                                 color: event.title == 'Completed'
-                                    ? const Color.fromARGB(113, 0, 125, 167)
+                                    ? const Color(0x70007DA7)
                                     : Colors.red[200],
                                 shape: BoxShape.circle,
                               ),

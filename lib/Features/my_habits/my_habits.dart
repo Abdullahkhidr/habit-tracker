@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/view/widgets/task_item_widget.dart';
-import 'package:habit_tracker/features/my_habits/edit_habit_page.dart';
+import 'package:habit_tracker/features/my_habits/details_habit_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class MyHabits extends StatefulWidget {
@@ -17,32 +16,29 @@ class MyHabits extends StatefulWidget {
 }
 
 class _MyHabitsState extends State<MyHabits> {
-  late Box<HabitEntity> box;
+  Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
   List<HabitEntity> habits = [];
 
   @override
   void initState() {
     super.initState();
-    box = Hive.box<HabitEntity>(HiveHelper.habitBox);
     habits = box.values.toList();
   }
 
-  void _deleteHabit(int index) {
+  void _deleteHabit(HabitEntity habit) {
     setState(() {
-      box.delete(habits[index].id); // Delete from Hive
-      habits.removeAt(index); // Remove from local list
+      habits.removeAt(habit.id!);
     });
-    // _showSnackBarMessage('Habit successfully deleted', success: true);
   }
 
   void editHabit(int index) async {
     final updatedHabit = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditHabitPage(
+        builder: (context) => DetailsHabitPage(
           habit: habits[index],
           onHabitDeleted: () {
-            _deleteHabit(index);
+            _deleteHabit(habits[index]);
           },
         ),
       ),
@@ -64,12 +60,8 @@ class _MyHabitsState extends State<MyHabits> {
         padding: kPaddingSmall,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
-              title: Text('My Habits'),
-              floating: true,
-              pinned: true,
-            ),
-            SliverToBoxAdapter(child: Gap(kSpaceLarge)),
+            const SliverAppBar(title: Text('My Habits')),
+            SliverToBoxAdapter(child: Gap(kSpaceExtraSmall)),
             habits.isEmpty
                 ? const SliverFillRemaining(
                     child: Center(child: Text('No habits found.')))
@@ -78,23 +70,11 @@ class _MyHabitsState extends State<MyHabits> {
                       (context, index) {
                         final habit = habits[index];
                         return Padding(
-                          padding: kPaddingExtraSmall,
-                          child: Slidable(
-                            startActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) => editHabit(index),
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.edit,
-                                  label: 'Edit',
-                                ),
-                              ],
-                            ),
-                            child: TaskItemWidget(
-                                habitEntity: habit, isCompleted: false),
-                          ),
+                          padding: kPaddingSmall,
+                          child: TaskItemWidget(
+                              onTap: () => editHabit(index),
+                              habitEntity: habit,
+                              isCompleted: false),
                         );
                       },
                       childCount: habits.length,
