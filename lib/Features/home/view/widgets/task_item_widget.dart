@@ -7,17 +7,20 @@ import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity
 import 'package:hugeicons/hugeicons.dart';
 
 class TaskItemWidget extends StatelessWidget {
+  final Function()? onTap;
   final HabitEntity habitEntity;
   final bool isCompleted;
   const TaskItemWidget({
     super.key,
     required this.habitEntity,
     this.isCompleted = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: kBorderRadiusSmall),
       tileColor: isCompleted
           ? Color.lerp(kSuccessColor, Colors.white, 0.2)

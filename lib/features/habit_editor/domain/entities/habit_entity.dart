@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/methods/generate_id.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.dart';
@@ -8,7 +9,7 @@ import 'package:hive/hive.dart';
 part 'habit_entity.g.dart';
 
 @HiveType(typeId: 0)
-class HabitEntity {
+class HabitEntity extends Equatable {
   @HiveField(0)
   int? id;
   @HiveField(1)
@@ -37,6 +38,8 @@ class HabitEntity {
   TimeOfDay? remainder;
   @HiveField(13)
   DateTime? when;
+  @HiveField(14)
+  DateTime? completedAt;
 
   HabitEntity(
       {int? id,
@@ -52,7 +55,8 @@ class HabitEntity {
       required this.partOfDay,
       this.dueDate,
       this.remainder,
-      this.when}) {
+      this.when,
+      this.completedAt}) {
     this.id = id ?? generateId();
   }
 
@@ -68,10 +72,15 @@ class HabitEntity {
         repeatingType: RepeatType.weekly,
         repeatingDays: {},
         partOfDay: PartOfDay.morning,
+        when: null,
+        completedAt: null,
       );
 
   @override
   String toString() {
-    return 'HabitEntity(id: $id, title: $title, description: $description, type: $type, when: $when , color: $color, icon: $icon, createdAt: $createdAt, updatedAt: $updatedAt, repeatingType: $repeatingType, repeatingDays: $repeatingDays, partOfDay: $partOfDay, dueDate: $dueDate, remainder: $remainder)';
+    return 'HabitEntity(id: $id, title: $title, description: $description, type: $type, when: $when , color: $color, icon: $icon, createdAt: $createdAt, updatedAt: $updatedAt, repeatingType: $repeatingType, repeatingDays: $repeatingDays, partOfDay: $partOfDay, dueDate: $dueDate, remainder: $remainder, completedAt: $completedAt)';
   }
+
+  @override
+  List<Object?> get props => [id];
 }

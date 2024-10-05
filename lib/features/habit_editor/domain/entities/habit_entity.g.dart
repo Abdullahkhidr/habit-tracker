@@ -26,18 +26,19 @@ class HabitEntityAdapter extends TypeAdapter<HabitEntity> {
       createdAt: fields[6] as DateTime,
       updatedAt: fields[7] as DateTime?,
       repeatingType: fields[8] as RepeatType,
-      repeatingDays: (fields[9] as List<int>).toSet(),
+      repeatingDays: (fields[9] as List).cast<int>().toSet(),
       partOfDay: fields[10] as PartOfDay,
       dueDate: fields[11] as DateTime?,
       remainder: fields[12] as TimeOfDay?,
       when: fields[13] as DateTime?,
+      completedAt: fields[14] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, HabitEntity obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -65,7 +66,9 @@ class HabitEntityAdapter extends TypeAdapter<HabitEntity> {
       ..writeByte(12)
       ..write(obj.remainder)
       ..writeByte(13)
-      ..write(obj.when);
+      ..write(obj.when)
+      ..writeByte(14)
+      ..write(obj.completedAt);
   }
 
   @override

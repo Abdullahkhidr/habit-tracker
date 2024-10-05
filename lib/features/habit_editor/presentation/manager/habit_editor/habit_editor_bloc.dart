@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/errors/failure.dart';
+import 'package:habit_tracker/core/helpers/locator.dart';
 import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/methods/pick_date.dart';
 import 'package:habit_tracker/core/methods/pick_time.dart';
@@ -13,6 +14,7 @@ import 'package:habit_tracker/features/habit_editor/domain/entities/repeat_type.
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
+import 'package:habit_tracker/features/home/manager/cubit/today_habits_cubit.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';
@@ -104,6 +106,7 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
             description: l.message, messageType: MessageType.error);
       }, (r) {
         showMessage('Saved Successfully', messageType: MessageType.success);
+        locator.get<TodayHabitsCubit>().loadHabits();
       });
       back();
     });

@@ -62,8 +62,8 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
           elevation: 0,
           backgroundColor: kPrimaryColor,
           onPressed: () {
-            push(BlocProvider(
-                create: (context) => locator.get<HabitEditorBloc>(),
+            push(BlocProvider.value(
+                value: locator.get<HabitEditorBloc>(),
                 child: const HabitEditorView()));
           },
           child: const Icon(HugeIcons.strokeRoundedTaskEdit02),

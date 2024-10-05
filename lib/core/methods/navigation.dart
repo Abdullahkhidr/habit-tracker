@@ -5,7 +5,7 @@ void back() {
   Navigator.pop(context);
 }
 
-void push(Widget pageWidget) {
-  Navigator.push(
+Future<T?> push<T>(Widget pageWidget) async {
+  return await Navigator.push(
       context, PageRouteBuilder(pageBuilder: (context, a, b) => pageWidget));
 }
