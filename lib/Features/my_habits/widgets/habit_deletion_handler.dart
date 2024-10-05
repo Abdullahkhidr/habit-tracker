@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 
 class HabitDeletionHandler {
@@ -16,7 +17,7 @@ class HabitDeletionHandler {
       if (!keepHistory) await _deleteHabitHistory();
       onHabitDeleted(); // Notify parent widget about deletion
       _showSnackBarMessage('Habit successfully deleted', success: true);
-      Navigator.of(context).pop();
+      back();
     } catch (error) {
       _showSnackBarMessage('Error deleting habit', success: false);
     }
@@ -35,7 +36,8 @@ class HabitDeletionHandler {
   void _showSnackBarMessage(String message, {required bool success}) {
     final snackBar = SnackBar(
       content: Text(message),
-      backgroundColor: success ? kSuccessColor : kErrorColor, // Use defined colors
+      backgroundColor:
+          success ? kSuccessColor : kErrorColor, // Use defined colors
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

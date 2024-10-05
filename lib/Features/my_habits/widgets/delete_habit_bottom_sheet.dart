@@ -5,7 +5,7 @@ import 'package:habit_tracker/core/utils/text_styles.dart';
 class DeleteHabitBottomSheet extends StatelessWidget {
   final Function(bool keepHistory) onDelete;
 
-  const DeleteHabitBottomSheet({Key? key, required this.onDelete}) : super(key: key);
+  const DeleteHabitBottomSheet({super.key, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {

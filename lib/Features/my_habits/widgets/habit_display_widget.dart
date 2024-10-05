@@ -13,14 +13,14 @@ class HabitDisplayWidget extends StatelessWidget {
   //final IconData habitIcon; // Add this line to receive the icon
 
   const HabitDisplayWidget({
-    Key? key,
+    super.key,
     required this.isEditing,
     required this.titleController,
     required this.descriptionController,
     required this.habitTitle,
     required this.habitDescription,
    // required this.habitIcon, // Add this line to accept the icon
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

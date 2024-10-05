@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:habit_tracker/Features/Home/widgets/task_item_widget.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/home/view/widgets/task_item_widget.dart';
 import 'package:habit_tracker/features/my_habits/edit_habit_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

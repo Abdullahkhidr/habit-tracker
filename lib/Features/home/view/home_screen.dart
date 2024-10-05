@@ -3,16 +3,16 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/methods/show_message.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
-import 'package:habit_tracker/features/home/widgets/complete_task_item_widget.dart';
-import 'package:habit_tracker/features/home/widgets/filter_time_widget.dart';
-import 'package:habit_tracker/features/home/widgets/part_of_day_filter_button.dart';
-import 'package:habit_tracker/features/home/widgets/task_item_widget.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import '../../core/utils/constants.dart';
+import '../../../core/utils/constants.dart';
+import 'widgets/complete_task_item_widget.dart';
+import 'widgets/filter_time_widget.dart';
+import 'widgets/part_of_day_filter_button.dart';
+import 'widgets/task_item_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

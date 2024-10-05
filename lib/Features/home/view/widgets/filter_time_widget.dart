@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
-import 'package:habit_tracker/features/home/widgets/duration_filter_button.dart';
+
+import 'duration_filter_button.dart';
 
 class FilterTimeWidget extends StatelessWidget {
   final int selectedMainFilterIndex;
@@ -20,7 +21,6 @@ class FilterTimeWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color:
                   selectedMainFilterIndex == index ? kPrimaryColor : kHintColor,
-
             ),
             child: DurationFilterButton(
                 label: timeFilters[index],

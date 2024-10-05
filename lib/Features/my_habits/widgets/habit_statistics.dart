@@ -3,7 +3,7 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 
 class HabitStatistics extends StatelessWidget {
-  const HabitStatistics({Key? key}) : super(key: key);
+  const HabitStatistics({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,6 @@ class HabitStatistics extends StatelessWidget {
         childAspectRatio: 2,
         crossAxisSpacing: kSpaceSmall,
         mainAxisSpacing: kSpaceSmall,
-        
       ),
       children: const [
         StatisticsCard(value: '226 days', label: 'Current streak'),
@@ -32,26 +31,23 @@ class StatisticsCard extends StatelessWidget {
   final String label;
 
   const StatisticsCard({
-    Key? key,
+    super.key,
     required this.value,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      
-      shape: RoundedRectangleBorder(
-        borderRadius: kBorderRadiusMedium, // Use predefined border radius
-      ),
-      elevation: 2, // Add some elevation for better visibility
+      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusMedium),
+      elevation: 2,
       child: Padding(
-        padding: kPaddingSmall, // Use predefined padding
+        padding: kPaddingSmall,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center contents vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(value, style: TextStyles.b1), // Use custom text style for value
-            Text(label, style: TextStyles.b4), // Use custom text style for label
+            Text(value, style: TextStyles.b1),
+            Text(label, style: TextStyles.b4),
           ],
         ),
       ),
