@@ -3,23 +3,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
 import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:habit_tracker/features/acount.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
+import 'package:habit_tracker/features/home/home_screen.dart';
+import 'package:habit_tracker/features/my_habits/my_habits.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import 'cubit/home_cubit.dart';
-
-class NavigatorScreen extends StatelessWidget {
+class NavigatorScreen extends StatefulWidget {
   const NavigatorScreen({super.key});
 
   @override
+  State<NavigatorScreen> createState() => _NavigatorScreenState();
+}
+
+class _NavigatorScreenState extends State<NavigatorScreen> {
+  int currentIndex = 0;
+  List<Widget> screens = [
+    const HomeScreen(),
+    const Text('Mood'),
+    const MyHabits(),
+    Acount(),
+  ];
+  @override
   Widget build(BuildContext context) {
-    var cubit = context.watch<HomeCubit>();
     return Scaffold(
-        body: cubit.screens[cubit.currentIndex],
+        body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: cubit.currentIndex,
-          onTap: (index) => cubit.changeBottomNav(index),
+          currentIndex: currentIndex,
+          onTap: (index) => {
+            setState(() {
+              currentIndex = index;
+            })
+          },
           items: const [
             BottomNavigationBarItem(
               icon: Icon(HugeIcons.strokeRoundedHome01),

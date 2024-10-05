@@ -7,7 +7,6 @@ import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
-import 'package:habit_tracker/features/home/layout/cubit/home_cubit.dart';
 import 'package:habit_tracker/features/home/layout/navigator_screen.dart';
 import 'package:toastification/toastification.dart';
 
@@ -48,10 +47,7 @@ class HabitTracker extends StatelessWidget {
                 onPrimary: kOnPrimaryColor,
                 onSecondary: kOnSecondaryColor,
                 error: kErrorColor)),
-        home: MultiBlocProvider(
-          providers: [BlocProvider(create: (context) => HomeCubit())],
-          child: const NavigatorScreen(),
-        ),
+        home: const NavigatorScreen(),
       ),
     );
   }
