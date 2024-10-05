@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/features/Home/widgets/task_item_widget.dart';
+import 'package:habit_tracker/features/home/widgets/task_item_widget.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 
 class CompletedTaskItemWidget extends StatelessWidget {

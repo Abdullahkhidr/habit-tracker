@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habit_tracker/Features/Home/layout/cubit/states.dart';
+import 'package:habit_tracker/features/home/layout/cubit/home_states.dart';
 
 import '../../../acount.dart';
 import '../../../my_habits.dart';
 import '../../home_screen.dart';
 
-class HabitCubit extends Cubit<HabitStates> {
-  HabitCubit() : super(HabitInitiateStates());
+class HomeCubit extends Cubit<HomeStates> {
+  HomeCubit() : super(HomeInitiateStates());
 
-  static HabitCubit get(context) => BlocProvider.of(context);
+  static HomeCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
 
@@ -28,6 +28,6 @@ class HabitCubit extends Cubit<HabitStates> {
 
   void changeBottomNav(int index) {
     currentIndex = index;
-    emit(ChangeBottonNav());
+    emit(ChangeButtonNav());
   }
 }

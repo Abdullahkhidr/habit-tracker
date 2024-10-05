@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
-import 'package:habit_tracker/features/Home/widgets/duration_filter_button.dart';
+import 'package:habit_tracker/features/home/widgets/duration_filter_button.dart';
 
 class FilterTimeWidget extends StatelessWidget {
   final int selectedMainFilterIndex;

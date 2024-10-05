@@ -7,14 +7,14 @@ import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_e
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import 'cubit/cubit.dart';
+import 'cubit/home_cubit.dart';
 
 class NavigatorScreen extends StatelessWidget {
   const NavigatorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.watch<HabitCubit>();
+    var cubit = context.watch<HomeCubit>();
     return Scaffold(
         body: cubit.screens[cubit.currentIndex],
         bottomNavigationBar: BottomNavigationBar(
