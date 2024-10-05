@@ -8,6 +8,7 @@ import 'package:habit_tracker/features/Home/widgets/filter_time_widget.dart';
 import 'package:habit_tracker/features/Home/widgets/part_of_day_filter_button.dart';
 import 'package:habit_tracker/features/Home/widgets/task_item_widget.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       habits.removeAt(index);
     });
   }
+
   @override
   void initState() {
     Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
@@ -51,11 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<HabitEntity> filterHabits() {
     if (partOfDayFilters[selectedTimeFilterIndex] == 'Morning') {
-      return habits.where((habit) => habit.partOfDay == 'Morning').toList();
+      return habits
+          .where((habit) => habit.partOfDay == PartOfDay.morning)
+          .toList();
     } else if (partOfDayFilters[selectedTimeFilterIndex] == 'Afternoon') {
-      return habits.where((habit) => habit.partOfDay == 'Afternoon').toList();
+      return habits
+          .where((habit) => habit.partOfDay == PartOfDay.afternoon)
+          .toList();
     } else if (partOfDayFilters[selectedTimeFilterIndex] == 'Evening') {
-      return habits.where((habit) => habit.partOfDay == 'Evening').toList();
+      return habits
+          .where((habit) => habit.partOfDay == PartOfDay.evening)
+          .toList();
     }
     return habits;
   }
@@ -119,16 +127,16 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverToBoxAdapter(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text('Completed'),
-                    ),
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                  ],
-                )),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Container(height: 1, color: Colors.grey)),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('Completed'),
+                ),
+                Expanded(child: Container(height: 1, color: Colors.grey)),
+              ],
+            )),
             SliverToBoxAdapter(child: Gap(kSpaceLarge)),
             SliverList.builder(
               itemCount: completedHabits.length,
@@ -146,4 +154,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

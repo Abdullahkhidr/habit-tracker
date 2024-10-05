@@ -138,7 +138,8 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       showMessage('Title is required', messageType: MessageType.error);
       return false;
     }
-    if (habitEntity.repeatingDays.isEmpty) {
+    if (habitEntity.repeatingDays.isEmpty &&
+        habitEntity.type == HabitType.regularHabit) {
       showMessage('Please select at least one day',
           messageType: MessageType.error);
       return false;
