@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:habit_tracker/Features/my_habits/widgets/DeleteHabitBottomSheet.dart';
-import 'package:habit_tracker/Features/my_habits/widgets/HabitDeletionHandler.dart';
-import 'package:habit_tracker/Features/my_habits/widgets/HabitDisplayWidget.dart';
-import 'package:habit_tracker/Features/my_habits/widgets/HabitStatistics.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:habit_tracker/features/my_habits/widgets/delete_habit_bottom_sheet.dart';
+import 'package:habit_tracker/features/my_habits/widgets/habit_deletion_handler.dart';
+import 'package:habit_tracker/features/my_habits/widgets/habit_display_widget.dart';
+import 'package:habit_tracker/features/my_habits/widgets/habit_statistics.dart';
 
 class EditHabitPage extends StatefulWidget {
   final HabitEntity habit;
