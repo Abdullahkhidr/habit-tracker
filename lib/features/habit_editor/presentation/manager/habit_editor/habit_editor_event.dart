@@ -49,3 +49,5 @@ class HabitEditorRepeatDaysSelectedEvent extends HabitEditorEvent {
 class HabitEditorSaveEvent extends HabitEditorEvent {}
 
 class HabitEditorSelectDateTimeOfOnTimeTaskEvent extends HabitEditorEvent {}
+
+class HabitEditorDeleteEvent extends HabitEditorEvent {}

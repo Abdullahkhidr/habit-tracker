@@ -9,12 +9,15 @@ class ColorItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: isSelected ? 10 : 0,
-      margin: const EdgeInsets.all(0),
-      shape: const CircleBorder(),
-      child: CircleAvatar(
-          backgroundColor: color, radius: kPaddingMedium.top * 1.7),
+    return Container(
+      height: kSpaceExtraLarge * 2.3,
+      width: kSpaceExtraLarge * 2.3,
+      decoration: BoxDecoration(
+          color: color,
+          borderRadius: kBorderRadiusSmall,
+          border: Border.all(
+              width: 4,
+              color: isSelected ? kSuccessColor : Colors.transparent)),
     );
   }
 }

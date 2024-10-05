@@ -40,6 +40,8 @@ final class HabitEditorChangeRepeatTypeState extends HabitEditorState {
   HabitEditorChangeRepeatTypeState({required this.repeatType});
 }
 
+final class HabitEditorChangeRepeatingDaysState extends HabitEditorState {}
+
 final class HabitEditorChangeIconState extends HabitEditorState {
   final String icon;
   HabitEditorChangeIconState({required this.icon});
@@ -55,3 +57,5 @@ final class HabitEditorSelectDateTimeOfOnTimeTaskState
   final DateTime dateTime;
   HabitEditorSelectDateTimeOfOnTimeTaskState({required this.dateTime});
 }
+
+final class HabitEditorDeleteState extends HabitEditorState {}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/methods/generate_id.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/repeat_type.dart';
@@ -9,7 +10,7 @@ part 'habit_entity.g.dart';
 @HiveType(typeId: 0)
 class HabitEntity {
   @HiveField(0)
-  String id;
+  int? id;
   @HiveField(1)
   String title;
   @HiveField(2)
@@ -38,7 +39,7 @@ class HabitEntity {
   DateTime? when;
 
   HabitEntity(
-      {required this.id,
+      {int? id,
       required this.title,
       required this.description,
       required this.icon,
@@ -51,10 +52,12 @@ class HabitEntity {
       required this.partOfDay,
       this.dueDate,
       this.remainder,
-      this.when});
+      this.when}) {
+    this.id = id ?? generateId();
+  }
 
   factory HabitEntity.empty() => HabitEntity(
-        id: '',
+        id: generateId(),
         title: '',
         description: '',
         icon: '',

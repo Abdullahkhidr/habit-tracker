@@ -23,15 +23,9 @@ class RepeatSectionWidget extends StatelessWidget {
         const TypeOfRepeatSelectorWidget(),
         Gap(kSpaceMedium),
         if (bloc.habitEntity.repeatingType == RepeatType.weekly)
-          ChooseDaysOfWeekWidget(
-            onChangeSelectionDays: (selected) {
-              bloc.add(HabitEditorRepeatDaysSelectedEvent(days: selected));
-            },
-          )
+          const ChooseDaysOfWeekWidget()
         else
-          ChooseDaysOfMonthWidget(onChangeSelectionDays: (days) {
-            bloc.add(HabitEditorRepeatDaysSelectedEvent(days: days));
-          }),
+          const ChooseDaysOfMonthWidget(),
       ],
     );
   }

@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/errors/failure.dart';
+import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/methods/pick_date.dart';
 import 'package:habit_tracker/core/methods/pick_time.dart';
 import 'package:habit_tracker/core/methods/show_message.dart';
@@ -8,6 +11,8 @@ import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.d
 import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/repeat_type.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habit_use_case.dart';
+import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habit_use_case.dart';
+import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';
@@ -15,7 +20,11 @@ part 'habit_editor_state.dart';
 
 class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
   final CreateHabitUseCase createHabitUseCase;
-  HabitEditorBloc(this.createHabitUseCase) : super(HabitEditorInitial()) {
+  final UpdateHabitUseCase updateHabitUseCase;
+  final DeleteHabitUseCase deleteHabitUseCase;
+  HabitEditorBloc(
+      this.createHabitUseCase, this.updateHabitUseCase, this.deleteHabitUseCase)
+      : super(HabitEditorInitial()) {
     on<HabitEditorEvent>((event, emit) {});
 
     on<HabitEditorColorSelectedEvent>((event, emit) {
@@ -77,19 +86,26 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
 
     on<HabitEditorRepeatDaysSelectedEvent>((event, emit) {
       habitEntity.repeatingDays = event.days;
+      emit(HabitEditorChangeRepeatingDaysState());
     });
 
     on<HabitEditorSaveEvent>((event, emit) async {
       habitEntity.title = titleController.text.trim();
       habitEntity.description = descriptionController.text.trim();
       if (!validation()) return;
-      var result = await createHabitUseCase(habitEntity);
+      Either<Failure, void> result;
+      if (isEdit) {
+        result = await updateHabitUseCase(habitEntity);
+      } else {
+        result = await createHabitUseCase(habitEntity);
+      }
       result.fold((l) {
         showMessage('Error while saving',
             description: l.message, messageType: MessageType.error);
       }, (r) {
         showMessage('Saved Successfully', messageType: MessageType.success);
       });
+      back();
     });
 
     on<HabitEditorSelectDateTimeOfOnTimeTaskEvent>((event, emit) async {
@@ -104,6 +120,16 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
           emit(HabitEditorSelectDateTimeOfOnTimeTaskState(dateTime: when));
         }
       }
+    });
+    on<HabitEditorDeleteEvent>((event, emit) async {
+      var result = await deleteHabitUseCase(habitEntity);
+      result.fold((l) {
+        showMessage('Error while deleting',
+            description: l.message, messageType: MessageType.error);
+      }, (r) {
+        showMessage('Deleted Successfully', messageType: MessageType.success);
+      });
+      back();
     });
   }
 
@@ -120,7 +146,17 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
     return true;
   }
 
+  bool _isEdit = false;
+
+  void setHabitEntity(HabitEntity? habitEntity) {
+    this.habitEntity = habitEntity ?? HabitEntity.empty();
+    titleController.text = this.habitEntity.title;
+    descriptionController.text = this.habitEntity.description;
+    _isEdit = habitEntity != null;
+  }
+
   HabitEntity habitEntity = HabitEntity.empty();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  bool get isEdit => _isEdit;
 }

@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/option_widget.dart';
 
-class ChooseDaysOfMonthWidget extends StatefulWidget {
-  final Function(Set<int> selected) onChangeSelectionDays;
-  const ChooseDaysOfMonthWidget(
-      {super.key, required this.onChangeSelectionDays});
-
-  @override
-  State<ChooseDaysOfMonthWidget> createState() =>
-      _ChooseDaysOfMonthWidgetState();
-}
-
-class _ChooseDaysOfMonthWidgetState extends State<ChooseDaysOfMonthWidget> {
-  final Set<int> days = {};
+class ChooseDaysOfMonthWidget extends StatelessWidget {
+  const ChooseDaysOfMonthWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<HabitEditorBloc>();
     return Container(
       padding: kPaddingMedium,
       decoration:
@@ -41,15 +34,18 @@ class _ChooseDaysOfMonthWidgetState extends State<ChooseDaysOfMonthWidget> {
                               padding: kPaddingExtraSmall,
                               borderRadius: kBorderRadiusCircular,
                               title: '${index + 1}',
-                              isSelected: days.contains(index + 1),
+                              isSelected: bloc.habitEntity.repeatingDays
+                                  .contains(index + 1),
                               onSelect: () {
-                                if (days.contains(index + 1)) {
-                                  days.remove(index + 1);
+                                if (bloc.habitEntity.repeatingDays
+                                    .contains(index + 1)) {
+                                  bloc.habitEntity.repeatingDays
+                                      .remove(index + 1);
                                 } else {
-                                  days.add(index + 1);
+                                  bloc.habitEntity.repeatingDays.add(index + 1);
                                 }
-                                setState(() {});
-                                widget.onChangeSelectionDays(days);
+                                bloc.add(HabitEditorRepeatDaysSelectedEvent(
+                                    days: bloc.habitEntity.repeatingDays));
                               }),
                         ),
                       ))),

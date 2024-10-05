@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/option_widget.dart';
 
-class ChooseDaysOfWeekWidget extends StatefulWidget {
-  final Function(Set<int> selected) onChangeSelectionDays;
-  const ChooseDaysOfWeekWidget(
-      {super.key, required this.onChangeSelectionDays});
-
-  @override
-  State<ChooseDaysOfWeekWidget> createState() => _ChooseDaysOfWeekWidgetState();
-}
-
-class _ChooseDaysOfWeekWidgetState extends State<ChooseDaysOfWeekWidget> {
-  final Set<int> days = {};
+class ChooseDaysOfWeekWidget extends StatelessWidget {
+  const ChooseDaysOfWeekWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<HabitEditorBloc>();
     return Column(
       children: [
         CheckboxListTile(
@@ -27,15 +21,16 @@ class _ChooseDaysOfWeekWidgetState extends State<ChooseDaysOfWeekWidget> {
                 Text('All Days', style: TextStyles.b5)
               ],
             ),
-            value: days.length == 7,
+            value: bloc.habitEntity.repeatingDays.length == 7,
             onChanged: (value) {
-              if (days.length == 7) {
-                days.clear();
+              if (bloc.habitEntity.repeatingDays.length == 7) {
+                bloc.habitEntity.repeatingDays.clear();
               } else {
-                days.addAll(List.generate(7, (index) => index + 1));
+                bloc.habitEntity.repeatingDays
+                    .addAll(List.generate(7, (index) => index + 1));
               }
-              setState(() {});
-              widget.onChangeSelectionDays(days);
+              bloc.add(HabitEditorRepeatDaysSelectedEvent(
+                  days: bloc.habitEntity.repeatingDays));
             }),
         Row(
             children: List.generate(
@@ -47,15 +42,17 @@ class _ChooseDaysOfWeekWidgetState extends State<ChooseDaysOfWeekWidget> {
                           : EdgeInsets.zero,
                       child: OptionWidget(
                           title: _days[index],
-                          isSelected: days.contains(index + 1),
+                          isSelected: bloc.habitEntity.repeatingDays
+                              .contains(index + 1),
                           onSelect: () {
-                            if (days.contains(index + 1)) {
-                              days.remove(index + 1);
+                            if (bloc.habitEntity.repeatingDays
+                                .contains(index + 1)) {
+                              bloc.habitEntity.repeatingDays.remove(index + 1);
                             } else {
-                              days.add(index + 1);
+                              bloc.habitEntity.repeatingDays.add(index + 1);
                             }
-                            setState(() {});
-                            widget.onChangeSelectionDays(days);
+                            bloc.add(HabitEditorRepeatDaysSelectedEvent(
+                                days: bloc.habitEntity.repeatingDays));
                           }),
                     ))))
       ],

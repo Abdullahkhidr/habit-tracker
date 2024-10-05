@@ -11,7 +11,7 @@ class HabitEditorRepositoryImpl implements HabitEditorRepository {
   @override
   Future<Either<Failure, void>> createHabit(HabitEntity habitEntity) async {
     try {
-      habitEditorLocalDataSource.createHabit(habitEntity);
+      await habitEditorLocalDataSource.createHabit(habitEntity);
       return right(null);
     } catch (e) {
       return left(Failure(message: e.toString()));
@@ -19,14 +19,22 @@ class HabitEditorRepositoryImpl implements HabitEditorRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteHabit(HabitEntity habitEntity) {
-    // TODO: implement deleteHabit
-    throw UnimplementedError();
+  Future<Either<Failure, void>> deleteHabit(HabitEntity habitEntity) async {
+    try {
+      await habitEditorLocalDataSource.deleteHabit(habitEntity);
+      return right(null);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, void>> updateHabit(HabitEntity habitEntity) {
-    // TODO: implement updateHabit
-    throw UnimplementedError();
+  Future<Either<Failure, void>> updateHabit(HabitEntity habitEntity) async {
+    try {
+      await habitEditorLocalDataSource.editHabit(habitEntity);
+      return right(null);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
   }
 }

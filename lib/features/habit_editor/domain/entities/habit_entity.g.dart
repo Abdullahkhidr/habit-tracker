@@ -17,7 +17,7 @@ class HabitEntityAdapter extends TypeAdapter<HabitEntity> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return HabitEntity(
-      id: fields[0] as String,
+      id: fields[0] as int?,
       title: fields[1] as String,
       description: fields[2] as String,
       icon: fields[5] as String,
@@ -30,6 +30,7 @@ class HabitEntityAdapter extends TypeAdapter<HabitEntity> {
       partOfDay: fields[10] as PartOfDay,
       dueDate: fields[11] as DateTime?,
       remainder: fields[12] as TimeOfDay?,
+      when: fields[13] as DateTime?,
     );
   }
 
@@ -62,7 +63,9 @@ class HabitEntityAdapter extends TypeAdapter<HabitEntity> {
       ..writeByte(11)
       ..write(obj.dueDate)
       ..writeByte(12)
-      ..write(obj.remainder);
+      ..write(obj.remainder)
+      ..writeByte(13)
+      ..write(obj.when);
   }
 
   @override

@@ -4,6 +4,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class HabitEditorLocalDataSource {
   Future<void> createHabit(HabitEntity habitEntity) async {
-    await Hive.box<HabitEntity>(HiveHelper.habitBox).add(habitEntity);
+    await Hive.box<HabitEntity>(HiveHelper.habitBox)
+        .put(habitEntity.id, habitEntity);
+  }
+
+  Future<void> deleteHabit(HabitEntity habitEntity) async {
+    await Hive.box<HabitEntity>(HiveHelper.habitBox).delete(habitEntity.id!);
+  }
+
+  Future<void> editHabit(HabitEntity habitEntity) async {
+    await Hive.box<HabitEntity>(HiveHelper.habitBox)
+        .put(habitEntity.id, habitEntity);
   }
 }
