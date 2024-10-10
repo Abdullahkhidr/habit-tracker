@@ -9,6 +9,8 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:toastification/toastification.dart';
 
+import 'Features/home/today/today.dart';
+import 'Features/home/weekly/weekly.dart';
 import 'features/home/view/layout/navigator_screen.dart';
 
 Future<void> main() async {

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:habit_tracker/core/utils/constants.dart';
 
 class DurationFilterButton extends StatelessWidget {
   final String label;
   final bool selected;
-  final VoidCallback onTap;
+  final Function() onTap;
+  final TextStyle? textStyle;
 
   const DurationFilterButton({
     super.key,
     required this.label,
     required this.selected,
     required this.onTap,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onTap,
-      style: TextButton.styleFrom(
-        foregroundColor: selected ? Colors.white : Colors.black,
-        backgroundColor: selected ? kPrimaryColor : kHintColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: textStyle ?? const TextStyle(fontSize: 16),
         ),
       ),
-      child: Text(label),
     );
   }
 }
