@@ -14,7 +14,7 @@ import 'package:habit_tracker/features/habit_editor/domain/entities/repeat_type.
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
-import 'package:habit_tracker/features/home/manager/cubit/today_habits_cubit.dart';
+import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';

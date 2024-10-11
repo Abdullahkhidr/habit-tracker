@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/Features/home/view/widgets/filter_time_widget.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 
-import '../today/today.dart';
-import '../weekly/weekly.dart';
+import 'today_view.dart';
+import 'weekly_view.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeViewState extends State<HomeView> {
   int selectedMainFilterIndex = 0;
 
   @override
@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: IndexedStack(
                 index: selectedMainFilterIndex,
                 children: const [
-                  TodayScreen(),
-                  WeeklyScreen(),
+                  TodayView(),
+                  WeeklyView(),
                 ],
               ),
             ),

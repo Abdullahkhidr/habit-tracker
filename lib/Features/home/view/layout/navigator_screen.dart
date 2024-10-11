@@ -6,7 +6,7 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/features/acount.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
-import 'package:habit_tracker/features/home/view/home_screen.dart';
+import 'package:habit_tracker/features/home/view/home_view.dart';
 import 'package:habit_tracker/features/my_habits/my_habits.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -20,7 +20,7 @@ class NavigatorScreen extends StatefulWidget {
 class _NavigatorScreenState extends State<NavigatorScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
-    const HomeScreen(),
+    const HomeView(),
     const Text('Mood'),
     const MyHabits(),
     Acount(),

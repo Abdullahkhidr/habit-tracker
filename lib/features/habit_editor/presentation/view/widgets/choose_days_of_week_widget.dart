@@ -60,12 +60,4 @@ class ChooseDaysOfWeekWidget extends StatelessWidget {
   }
 }
 
-const _days = [
-  "S",
-  "M",
-  "T",
-  "w",
-  "T",
-  "F",
-  "S",
-];
+const _days = ["M", "T", "W", "T", "F", "S", "S"];

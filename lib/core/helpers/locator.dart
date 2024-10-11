@@ -5,7 +5,7 @@ import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habi
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
-import 'package:habit_tracker/features/home/manager/cubit/today_habits_cubit.dart';
+import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
 
 GetIt get locator => GetIt.instance;
 

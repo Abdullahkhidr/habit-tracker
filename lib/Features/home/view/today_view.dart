@@ -6,25 +6,24 @@ import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/part_of_day.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
-import 'package:habit_tracker/features/home/manager/cubit/today_habits_cubit.dart';
+import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/methods/navigation.dart';
 import '../../../core/utils/constants.dart';
-import '../view/widgets/complete_task_item_widget.dart';
-import '../view/widgets/part_of_day_filter_button.dart';
-import '../view/widgets/task_item_widget.dart';
+import 'widgets/complete_task_item_widget.dart';
+import 'widgets/part_of_day_filter_button.dart';
+import 'widgets/task_item_widget.dart';
 
-
-class TodayScreen extends StatefulWidget {
-  const TodayScreen({super.key});
+class TodayView extends StatefulWidget {
+  const TodayView({super.key});
 
   @override
-  _TodayScreenState createState() => _TodayScreenState();
+  _TodayViewState createState() => _TodayViewState();
 }
 
-class _TodayScreenState extends State<TodayScreen> {
+class _TodayViewState extends State<TodayView> {
   int selectedTimeFilterIndex = 0;
   List<String> partOfDayFilters = ['All', 'Morning', 'Afternoon', 'Evening'];
 
@@ -37,7 +36,6 @@ class _TodayScreenState extends State<TodayScreen> {
           padding: kPaddingSmall,
           child: CustomScrollView(
             slivers: [
-
               SliverToBoxAdapter(child: Gap(kSpaceLarge)),
               SliverToBoxAdapter(
                 child: BlocBuilder<TodayHabitsCubit, TodayHabitsState>(
@@ -79,26 +77,29 @@ class _TodayScreenState extends State<TodayScreen> {
                     itemCount: bloc.inCompletedHabits.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                          padding: kPaddingExtraSmall,
-                          child: Slidable(
-                            closeOnScroll: true,
-                            startActionPane: TaskActionWidget(
-                                icon: HugeIcons.strokeRoundedTaskDone02,
-                                action: () => bloc.taskCompleted(bloc.inCompletedHabits[index]),
-                                backgroundColor: kSuccessColor),
-                            endActionPane: TaskActionWidget(
-                                icon: HugeIcons.strokeRoundedDelete02,
-                                action: () {},
-                                backgroundColor: kErrorColor),
-                            child: TaskItemWidget(
-                              onTap: () {
-                                push(BlocProvider.value(
-                                    value: locator.get<HabitEditorBloc>(),
-                                    child: HabitEditorView(habitEntity: bloc.inCompletedHabits[index])));
-                              },
-                              habitEntity: bloc.inCompletedHabits[index],
-                            ),
+                        padding: kPaddingExtraSmall,
+                        child: Slidable(
+                          closeOnScroll: true,
+                          startActionPane: TaskActionWidget(
+                              icon: HugeIcons.strokeRoundedTaskDone02,
+                              action: () => bloc
+                                  .taskCompleted(bloc.inCompletedHabits[index]),
+                              backgroundColor: kSuccessColor),
+                          endActionPane: TaskActionWidget(
+                              icon: HugeIcons.strokeRoundedDelete02,
+                              action: () {},
+                              backgroundColor: kErrorColor),
+                          child: TaskItemWidget(
+                            onTap: () {
+                              push(BlocProvider.value(
+                                  value: locator.get<HabitEditorBloc>(),
+                                  child: HabitEditorView(
+                                      habitEntity:
+                                          bloc.inCompletedHabits[index])));
+                            },
+                            habitEntity: bloc.inCompletedHabits[index],
                           ),
+                        ),
                       );
                     },
                   );
