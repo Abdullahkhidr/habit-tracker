@@ -78,6 +78,7 @@ class _DetailsHabitPageState extends State<DetailsHabitPage> {
       dueDate: widget.habit.dueDate,
       remainder: widget.habit.remainder,
       when: widget.habit.when,
+      completedAt: widget.habit.completedAt,
     );
 
     // Update habit in storage (e.g., Hive, Provider, etc.)

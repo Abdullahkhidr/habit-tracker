@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/Features/home/view/widgets/filter_time_widget.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
-import 'package:habit_tracker/core/methods/navigation.dart';
 
 import '../today/today.dart';
 import '../weekly/weekly.dart';
