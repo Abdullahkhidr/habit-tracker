@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: IndexedStack(
                 index: selectedMainFilterIndex,
-                children: [
+                children: const [
                   TodayScreen(),
                   WeeklyScreen(),
                 ],

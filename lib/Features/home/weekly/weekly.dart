@@ -3,26 +3,45 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/utils/constants.dart';
 
 class WeeklyScreen extends StatelessWidget {
+  const WeeklyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          habitCard('Set Small Goals', 'Everyday', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [true, true, true, true, true, true, false]),
+          habitCard(
+              'Set Small Goals',
+              'Everyday',
+              ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              [true, true, true, true, true, true, false]),
           SizedBox(height: 10.h),
-          habitCard('Meditation', '5 days per week', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [true, true, true, true, false, false, false]),
+          habitCard(
+              'Meditation',
+              '5 days per week',
+              ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              [true, true, true, true, false, false, false]),
           SizedBox(height: 10.h),
-          habitCard('Meditation', '5 days per week', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [true, true, true, true, false, false, false]),
+          habitCard(
+              'Meditation',
+              '5 days per week',
+              ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              [true, true, true, true, false, false, false]),
           SizedBox(height: 10.h),
-          habitCard('Meditation', '5 days per week', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [true, true, true, true, false, false, false]),
+          habitCard(
+              'Meditation',
+              '5 days per week',
+              ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              [true, true, true, true, false, false, false]),
         ],
       ),
     );
   }
 
-  Widget habitCard(String habitName, String frequency, List<String> days, List<bool> checkboxes) {
+  Widget habitCard(String habitName, String frequency, List<String> days,
+      List<bool> checkboxes) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(
@@ -43,10 +62,10 @@ class WeeklyScreen extends StatelessWidget {
                     color: kOnSecondaryColor,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   frequency,
-                  style: TextStyle(color: kSecondaryColor),
+                  style: const TextStyle(color: kSecondaryColor),
                 ),
               ],
             ),
@@ -64,7 +83,7 @@ class WeeklyScreen extends StatelessWidget {
                   children: [
                     Text(
                       days[index],
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: kSecondaryColor,
                       ),
                     ),
@@ -75,20 +94,22 @@ class WeeklyScreen extends StatelessWidget {
                         height: 33.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: checkboxes[index] ? Colors.pinkAccent : Colors.transparent,
+                          color: checkboxes[index]
+                              ? Colors.pinkAccent
+                              : Colors.transparent,
                           border: checkboxes[index]
                               ? null
                               : Border.all(
-                            color: kHintColor,
-                            width: 1.w,
-                          ),
+                                  color: kHintColor,
+                                  width: 1.w,
+                                ),
                         ),
                         child: checkboxes[index]
                             ? Icon(
-                          Icons.check,
-                          color: kOnSecondaryColor,
-                          size: 16.sp,
-                        )
+                                Icons.check,
+                                color: kOnSecondaryColor,
+                                size: 16.sp,
+                              )
                             : null,
                       ),
                     ),
