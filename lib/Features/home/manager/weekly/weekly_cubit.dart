@@ -7,7 +7,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 part 'weekly_state.dart';
 
 class WeeklyCubit extends Cubit<WeeklyState> {
-  WeeklyCubit() : super(WeeklyInitial());
+  WeeklyCubit() : super(WeeklyInitial()) {
+    loadHabits();
+  }
   List<HabitEntity> habits = [];
 
   void loadHabits() {

@@ -15,6 +15,7 @@ import 'package:habit_tracker/features/habit_editor/domain/use_cases/create_habi
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habit_use_case.dart';
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
 import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
+import 'package:habit_tracker/features/home/manager/weekly/weekly_cubit.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';
@@ -107,6 +108,7 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       }, (r) {
         showMessage('Saved Successfully', messageType: MessageType.success);
         locator.get<TodayHabitsCubit>().loadHabits();
+        locator.get<WeeklyCubit>().loadHabits();
       });
       back();
     });

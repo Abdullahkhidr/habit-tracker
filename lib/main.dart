@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/core/helpers/app_bloc_observer.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
-import 'package:habit_tracker/core/helpers/notifications_helper.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:toastification/toastification.dart';
@@ -15,10 +14,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   await HiveHelper.init();
-  await initializeTimezone();
-  await initializeAwesomeNotifications();
-  await initializeWorkmanager();
-
   setupLocator();
   runApp(const ToastificationWrapper(child: HabitTracker()));
 }
