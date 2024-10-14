@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/emoji_icon_widget.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class TaskItemWidget extends StatelessWidget {
@@ -27,7 +27,13 @@ class TaskItemWidget extends StatelessWidget {
           : habitEntity.color,
       contentPadding: kPaddingExtraSmall.copyWith(
           left: kPaddingMedium.left, right: kPaddingMedium.right),
-      leading: Text(habitEntity.icon, style: TextStyle(fontSize: 30.sp)),
+      leading: EmojiIconWidget(
+          borderRadius: kBorderRadiusCircular,
+          margin: EdgeInsets.zero,
+          emoji: habitEntity.icon,
+          size: 50,
+          borderWidth: 0,
+          backgroundColor: kHintColor.withOpacity(0.6)),
       title: Text(habitEntity.title,
           style:
               TextStyles.h3.copyWith(color: isCompleted ? Colors.white : null)),

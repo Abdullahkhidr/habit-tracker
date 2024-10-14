@@ -40,9 +40,13 @@ class TodayHabitsCubit extends Cubit<TodayHabitsState> {
     emit(TodayHabitsLoading());
     try {
       DateTime now = DateTime.now();
+      now = DateTime(now.year, now.month, now.day);
       Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
       var completedTasks = _fetchCompletedTasks();
-      _habits = box.values.toList();
+      _habits = box.values.where((e) {
+        return e.repeatingDays.contains(now.weekday) &&
+            (e.dueDate == null || e.dueDate!.compareTo(now) >= 0);
+      }).toList();
       _habits.forEach((habit) {
         if (completedTasks.contains(habit)) {
           habit.completedAt = DateTime(now.year, now.month, now.day);

@@ -14,7 +14,6 @@ import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/da
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/date_time_task_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/icon_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/repeat_section_widget.dart';
-import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/select_type_of_habit_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/time_of_day_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/time_selector_widget.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -59,7 +58,8 @@ class _HabitEditorViewBodyState extends State<HabitEditorViewBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const TypeHabitSelectorWidget(),
+                  // const TypeHabitSelectorWidget(),
+                  const Divider(color: kHintColor),
                   Gap(kSpaceLarge),
                   const Text('Habit Title', style: TextStyles.h3),
                   Gap(kSpaceLarge),

@@ -13,7 +13,12 @@ class WeeklyCubit extends Cubit<WeeklyState> {
   List<HabitEntity> habits = [];
 
   void loadHabits() {
-    habits = Hive.box<HabitEntity>(HiveHelper.habitBox).values.toList();
+    DateTime now = DateTime.now();
+    now = DateTime(now.year, now.month, now.day);
+    var box = Hive.box<HabitEntity>(HiveHelper.habitBox);
+    habits = box.values.where((e) {
+      return (e.dueDate == null || e.dueDate!.compareTo(now) >= 0);
+    }).toList();
     emit(WeeklyLoaded(habits: habits));
   }
 }

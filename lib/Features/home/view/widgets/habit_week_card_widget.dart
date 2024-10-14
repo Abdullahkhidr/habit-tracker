@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
+import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/emoji_icon_widget.dart';
 
 class HabitWeekCardWidget extends StatelessWidget {
   final HabitEntity habit;
@@ -25,6 +27,16 @@ class HabitWeekCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
+              EmojiIconWidget(
+                borderRadius: kBorderRadiusCircular,
+                margin: EdgeInsets.zero,
+                emoji: habit.icon,
+                size: 30,
+                borderWidth: 0,
+                padding: EdgeInsets.zero,
+                // backgroundColor: kHintColor.withOpacity(0.5)
+              ),
+              Gap(kSpaceSmall),
               Text(
                 habit.title,
                 style: TextStyle(

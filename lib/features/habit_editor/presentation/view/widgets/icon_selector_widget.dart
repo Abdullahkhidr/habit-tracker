@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
+import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/emoji_icon_widget.dart';
 
-class IconSelectorWidget extends StatelessWidget {
+class IconSelectorWidget extends StatefulWidget {
   const IconSelectorWidget({super.key});
 
+  @override
+  State<IconSelectorWidget> createState() => _IconSelectorWidgetState();
+}
+
+class _IconSelectorWidgetState extends State<IconSelectorWidget> {
+  var emojis = [
+    'baseball',
+    'basketball',
+    'boxing_glove',
+    'cooking',
+    'football',
+    'goal',
+    'golf_club',
+    'gym',
+    'laptop',
+    'medal',
+    'open_book',
+    'rugby_ball',
+    'skate',
+    'tennis',
+    'tree',
+    'trophy',
+    'volleyball',
+  ];
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<HabitEditorBloc>();
@@ -14,8 +38,10 @@ class IconSelectorWidget extends StatelessWidget {
       child: Row(
         children: List.from(emojis)
             .map((emoji) => EmojiIconWidget(
-                onTap: (icon) =>
-                    bloc.add(HabitEditorChangeIconEvent(icon: icon)),
+                size: 80,
+                onTap: (icon) {
+                  bloc.add(HabitEditorChangeIconEvent(icon: icon));
+                },
                 emoji: emoji,
                 isSelected: bloc.habitEntity.icon == emoji))
             .toList(),
@@ -23,156 +49,3 @@ class IconSelectorWidget extends StatelessWidget {
     );
   }
 }
-
-class EmojiIconWidget extends StatelessWidget {
-  final String emoji;
-  final bool isSelected;
-  final Function(String) onTap;
-  const EmojiIconWidget(
-      {super.key,
-      required this.emoji,
-      required this.isSelected,
-      required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(emoji),
-      child: Container(
-          margin: kPaddingSmall.copyWith(left: 0),
-          padding: kPaddingSmall,
-          decoration: BoxDecoration(
-              borderRadius: kBorderRadiusSmall,
-              border: Border.all(width: isSelected ? 3 : 0.5)),
-          child: Text(emoji, style: const TextStyle(fontSize: 50))),
-    );
-  }
-}
-
-const emojis = [
-  '😀',
-  '😃',
-  '😄',
-  '😁',
-  '😆',
-  '😅',
-  '😂',
-  '🤣',
-  '🥲',
-  '🥹',
-  '😊',
-  '😇',
-  '🙂',
-  '🙃',
-  '😉',
-  '😌',
-  '😍',
-  '🥰',
-  '😘',
-  '😗',
-  '😙',
-  '😚',
-  '😋',
-  '😛',
-  '😝',
-  '😜',
-  '🤪',
-  '🤨',
-  '🧐',
-  '🤓',
-  '😎',
-  '🥸',
-  '🤩',
-  '🥳',
-  '🙂‍↕️',
-  '😏',
-  '😒',
-  '🙂‍↔️',
-  '😞',
-  '😔',
-  '😟',
-  '😕',
-  '🙁',
-  '☹️',
-  '😣',
-  '😖',
-  '😫',
-  '😩',
-  '🥺',
-  '😢',
-  '😭',
-  '😮‍💨',
-  '😤',
-  '😠',
-  '😡',
-  '🤬',
-  '🤯',
-  '😳',
-  '🥵',
-  '🥶',
-  '😱',
-  '😨',
-  '😰',
-  '😥',
-  '😓',
-  '🫣',
-  '🤗',
-  '🫡',
-  '🤔',
-  '🫢',
-  '🤭',
-  '🤫',
-  '🤥',
-  '😶',
-  '😶‍🌫️',
-  '😐',
-  '😑',
-  '😬',
-  '🫨',
-  '🫠',
-  '🙄',
-  '😯',
-  '😦',
-  '😧',
-  '😮',
-  '😲',
-  '🥱',
-  '😴',
-  '🤤',
-  '😪',
-  '😵',
-  '😵‍💫',
-  '🫥',
-  '🤐',
-  '🥴',
-  '🤢',
-  '🤮',
-  '🤧',
-  '😷',
-  '🤒',
-  '🤕',
-  '🤑',
-  '🤠',
-  '😈',
-  '👿',
-  '👹',
-  '👺',
-  '🤡',
-  '💩',
-  '👻',
-  '💀',
-  '☠️',
-  '👽',
-  '👾',
-  '🤖',
-  '🎃',
-  '😺',
-  '😸',
-  '😹',
-  '😻',
-  '😼',
-  '😽',
-  '🙀',
-  '😿',
-  '😾'
-];

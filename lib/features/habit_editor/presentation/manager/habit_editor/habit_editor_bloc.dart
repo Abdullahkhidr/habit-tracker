@@ -132,6 +132,8 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
         showMessage('Error while deleting',
             description: l.message, messageType: MessageType.error);
       }, (r) {
+        locator.get<TodayHabitsCubit>().loadHabits();
+        locator.get<WeeklyCubit>().loadHabits();
         showMessage('Deleted Successfully', messageType: MessageType.success);
       });
       back();
