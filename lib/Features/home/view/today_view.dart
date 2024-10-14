@@ -8,6 +8,7 @@ import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_e
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
 import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/methods/navigation.dart';
@@ -33,7 +34,7 @@ class _TodayViewState extends State<TodayView> {
       value: locator.get<TodayHabitsCubit>(),
       child: Scaffold(
         body: Padding(
-          padding: kPaddingSmall,
+          padding: kPaddingMedium.copyWith(top: 0),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: Gap(kSpaceLarge)),
@@ -73,6 +74,13 @@ class _TodayViewState extends State<TodayView> {
               BlocBuilder<TodayHabitsCubit, TodayHabitsState>(
                 builder: (context, state) {
                   final bloc = context.watch<TodayHabitsCubit>();
+                  if (bloc.inCompletedHabits.isEmpty &&
+                      bloc.completedHabits.isEmpty) {
+                    return SliverFillRemaining(
+                      child: Center(
+                          child: Lottie.asset('assets/lottie/playing.json')),
+                    );
+                  }
                   return SliverList.builder(
                     itemCount: bloc.inCompletedHabits.length,
                     itemBuilder: (context, index) {
@@ -86,17 +94,17 @@ class _TodayViewState extends State<TodayView> {
                                   .taskCompleted(bloc.inCompletedHabits[index]),
                               backgroundColor: kSuccessColor),
                           endActionPane: TaskActionWidget(
-                              icon: HugeIcons.strokeRoundedDelete02,
-                              action: () {},
-                              backgroundColor: kErrorColor),
+                              icon: HugeIcons.strokeRoundedEdit02,
+                              action: () {
+                                push(BlocProvider.value(
+                                    value: locator.get<HabitEditorBloc>(),
+                                    child: HabitEditorView(
+                                        habitEntity:
+                                            bloc.inCompletedHabits[index])));
+                              },
+                              backgroundColor: Colors.amber),
                           child: TaskItemWidget(
-                            onTap: () {
-                              push(BlocProvider.value(
-                                  value: locator.get<HabitEditorBloc>(),
-                                  child: HabitEditorView(
-                                      habitEntity:
-                                          bloc.inCompletedHabits[index])));
-                            },
+                            onTap: () {},
                             habitEntity: bloc.inCompletedHabits[index],
                           ),
                         ),
@@ -106,18 +114,28 @@ class _TodayViewState extends State<TodayView> {
                 },
               ),
               SliverToBoxAdapter(child: Gap(kSpaceLarge)),
-              SliverToBoxAdapter(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text('Completed'),
+              BlocBuilder<TodayHabitsCubit, TodayHabitsState>(
+                builder: (context, state) {
+                  final bloc = context.read<TodayHabitsCubit>();
+                  if (bloc.completedHabits.isEmpty) {
+                    return const SliverToBoxAdapter();
+                  }
+                  return SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: Container(height: 1, color: Colors.grey)),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text('Completed'),
+                        ),
+                        Expanded(
+                            child: Container(height: 1, color: Colors.grey)),
+                      ],
                     ),
-                    Expanded(child: Container(height: 1, color: Colors.grey)),
-                  ],
-                ),
+                  );
+                },
               ),
               SliverToBoxAdapter(child: Gap(kSpaceLarge)),
               BlocBuilder<TodayHabitsCubit, TodayHabitsState>(
@@ -129,6 +147,9 @@ class _TodayViewState extends State<TodayView> {
                       return Padding(
                         padding: kPaddingExtraSmall,
                         child: CompletedTaskItemWidget(
+                          onUndo: (habit) {
+                            bloc.undoTask(habit);
+                          },
                           habitEntity: bloc.completedHabits[index],
                         ),
                       );

@@ -17,7 +17,7 @@ class WeeklyView extends StatelessWidget {
           builder: (context, state) {
             final bloc = context.watch<WeeklyCubit>();
             return ListView.builder(
-              padding: kPaddingSmall,
+              padding: kPaddingMedium,
               itemBuilder: (context, index) => HabitWeekCardWidget(
                 habit: bloc.habits[index],
               ),

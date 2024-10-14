@@ -29,13 +29,19 @@ class TodayHabitsCubit extends Cubit<TodayHabitsState> {
     emit(TodayHabitsFilterByPartOfDay(partOfDay));
   }
 
+  void undoTask(HabitEntity habit) {
+    Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.historyBox);
+    box.delete("${habit.id}-${habit.completedAt!.millisecondsSinceEpoch}");
+    _habits[_habits.indexOf(habit)].completedAt = null;
+    emit(TodayHabitsTaskUndone(habit));
+  }
+
   void loadHabits() {
     emit(TodayHabitsLoading());
     try {
       DateTime now = DateTime.now();
       Box<HabitEntity> box = Hive.box<HabitEntity>(HiveHelper.habitBox);
       var completedTasks = _fetchCompletedTasks();
-      print('Completed Tasks: $completedTasks');
       _habits = box.values.toList();
       _habits.forEach((habit) {
         if (completedTasks.contains(habit)) {

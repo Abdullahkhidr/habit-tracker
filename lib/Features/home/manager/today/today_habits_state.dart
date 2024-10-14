@@ -32,3 +32,9 @@ final class TodayHabitsFilterByPartOfDay extends TodayHabitsState {
 
   const TodayHabitsFilterByPartOfDay(this.partOfDay);
 }
+
+final class TodayHabitsTaskUndone extends TodayHabitsState {
+  final HabitEntity habit;
+
+  const TodayHabitsTaskUndone(this.habit);
+}
