@@ -76,6 +76,42 @@ class HabitEntity extends Equatable {
         completedAt: null,
       );
 
+  HabitEntity copyWith({
+    int? id,
+    String? title,
+    String? description,
+    HabitType? type,
+    DateTime? when,
+    Color? color,
+    String? icon,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    RepeatType? repeatingType,
+    Set<int>? repeatingDays,
+    PartOfDay? partOfDay,
+    DateTime? dueDate,
+    TimeOfDay? remainder,
+    DateTime? completedAt,
+  }) {
+    return HabitEntity(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      type: type ?? this.type,
+      when: when ?? this.when,
+      color: color ?? this.color,
+      icon: icon ?? this.icon,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      repeatingType: repeatingType ?? this.repeatingType,
+      repeatingDays: repeatingDays ?? this.repeatingDays,
+      partOfDay: partOfDay ?? this.partOfDay,
+      dueDate: dueDate ?? this.dueDate,
+      remainder: remainder ?? this.remainder,
+      completedAt: completedAt ?? this.completedAt,
+    );
+  }
+
   @override
   String toString() {
     return 'HabitEntity(id: $id, title: $title, description: $description, type: $type, when: $when , color: $color, icon: $icon, createdAt: $createdAt, updatedAt: $updatedAt, repeatingType: $repeatingType, repeatingDays: $repeatingDays, partOfDay: $partOfDay, dueDate: $dueDate, remainder: $remainder, completedAt: $completedAt)';

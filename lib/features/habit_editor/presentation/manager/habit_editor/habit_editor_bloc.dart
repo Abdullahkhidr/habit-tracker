@@ -157,7 +157,7 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
   bool _isEdit = false;
 
   void setHabitEntity(HabitEntity? habitEntity) {
-    this.habitEntity = habitEntity ?? HabitEntity.empty();
+    this.habitEntity = habitEntity?.copyWith() ?? HabitEntity.empty();
     titleController.text = this.habitEntity.title;
     descriptionController.text = this.habitEntity.description;
     _isEdit = habitEntity != null;

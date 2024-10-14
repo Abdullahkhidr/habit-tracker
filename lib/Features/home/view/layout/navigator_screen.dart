@@ -8,7 +8,7 @@ import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_e
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
 import 'package:habit_tracker/features/home/view/home_view.dart';
 import 'package:habit_tracker/features/mood/presentation/view/mood_view.dart';
-import 'package:habit_tracker/features/my_habits/my_habits.dart';
+import 'package:habit_tracker/features/my_habits/presentation/view/my_habits.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class NavigatorScreen extends StatefulWidget {

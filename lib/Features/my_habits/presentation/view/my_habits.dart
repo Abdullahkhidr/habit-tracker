@@ -4,14 +4,13 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/view/widgets/task_item_widget.dart';
-import 'package:habit_tracker/features/my_habits/details_habit_page.dart';
+import 'package:habit_tracker/features/my_habits/presentation/view/details_habit_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class MyHabits extends StatefulWidget {
   const MyHabits({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _MyHabitsState createState() => _MyHabitsState();
 }
 
@@ -25,21 +24,12 @@ class _MyHabitsState extends State<MyHabits> {
     habits = box.values.toList();
   }
 
-  void _deleteHabit(HabitEntity habit) {
-    setState(() {
-      habits.removeAt(habit.id!);
-    });
-  }
-
   void editHabit(int index) async {
     final updatedHabit = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => DetailsHabitPage(
           habit: habits[index],
-          onHabitDeleted: () {
-            _deleteHabit(habits[index]);
-          },
         ),
       ),
     );
@@ -47,8 +37,7 @@ class _MyHabitsState extends State<MyHabits> {
     if (updatedHabit != null) {
       setState(() {
         habits[index] = updatedHabit;
-        box.put(
-            updatedHabit.id, updatedHabit); // Update the habit in the Hive box
+        box.put(updatedHabit.id, updatedHabit);
       });
     }
   }
@@ -70,7 +59,7 @@ class _MyHabitsState extends State<MyHabits> {
                       (context, index) {
                         final habit = habits[index];
                         return Padding(
-                          padding: kPaddingSmall,
+                          padding: kPaddingSmall.copyWith(bottom: 0),
                           child: TaskItemWidget(
                               onTap: () => editHabit(index),
                               habitEntity: habit,

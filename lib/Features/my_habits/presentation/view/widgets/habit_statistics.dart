@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/my_habits/presentation/manager/habit_details/habit_details_cubit.dart';
 
 class HabitStatistics extends StatelessWidget {
   final HabitEntity habitEntity;
@@ -10,8 +12,9 @@ class HabitStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
+    final bloc = context.watch<HabitDetailsCubit>();
+    return Container(
+      margin: EdgeInsets.symmetric(
           vertical: kPaddingMedium.left, horizontal: kPaddingExtraSmall.top),
       child: Column(
         children: [
@@ -33,12 +36,12 @@ class HabitStatistics extends StatelessWidget {
           Row(
             children: [
               StatisticsCard(
-                  value: '459',
+                  value: '${bloc.history.length}',
                   label: 'Habits completed',
                   color: habitEntity.color),
               Gap(kSpaceSmall),
               StatisticsCard(
-                  value: '386',
+                  value: '',
                   label: 'Total perfect days',
                   color: habitEntity.color),
             ],
@@ -66,16 +69,15 @@ class StatisticsCard extends StatelessWidget {
       child: Container(
         padding: kPaddingMedium,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: kBorderRadiusSmall,
-          boxShadow: [
-            BoxShadow(
-              color: color,
-              blurRadius: kPaddingExtraSmall.left,
-              spreadRadius: 0,
-            )
-          ],
-        ),
+            color: kOnPrimaryColor,
+            borderRadius: kBorderRadiusSmall,
+            border: Border.all(color: color),
+            boxShadow: [
+              BoxShadow(
+                  color: color,
+                  blurRadius: kPaddingExtraSmall.left,
+                  spreadRadius: 0)
+            ]),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
