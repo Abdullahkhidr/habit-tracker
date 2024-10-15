@@ -11,8 +11,6 @@ import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/habit_editor_view.dart';
 import 'package:habit_tracker/features/my_habits/presentation/manager/habit_details/habit_details_cubit.dart';
-import 'package:habit_tracker/features/my_habits/presentation/view/widgets/delete_habit_bottom_sheet.dart';
-import 'package:habit_tracker/features/my_habits/presentation/view/widgets/habit_deletion_handler.dart';
 import 'package:habit_tracker/features/my_habits/presentation/view/widgets/habit_display_widget.dart';
 import 'package:habit_tracker/features/my_habits/presentation/view/widgets/habit_statistics.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -40,13 +38,6 @@ class DetailsHabitPage extends StatelessWidget {
                     push(BlocProvider.value(
                         value: locator.get<HabitEditorBloc>(),
                         child: HabitEditorView(habitEntity: habit)));
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(HugeIcons.strokeRoundedDelete02,
-                      color: kErrorColor),
-                  onPressed: () {
-                    _showDeleteOptionsBottomSheet(context);
                   },
                 ),
               ],
@@ -152,24 +143,6 @@ class DetailsHabitPage extends StatelessWidget {
       },
     );
     return markedDates;
-  }
-
-  void _showDeleteOptionsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-      builder: (BuildContext context) {
-        return DeleteHabitBottomSheet(
-          onDelete: (keepHistory) {
-            HabitDeletionHandler(
-              context: context,
-              onHabitDeleted: () {},
-            ).deleteHabit(keepHistory: keepHistory);
-          },
-        );
-      },
-    );
   }
 }
 

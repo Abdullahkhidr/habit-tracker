@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/errors/failure.dart';
+import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
 import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/methods/pick_date.dart';
@@ -16,6 +17,7 @@ import 'package:habit_tracker/features/habit_editor/domain/use_cases/delete_habi
 import 'package:habit_tracker/features/habit_editor/domain/use_cases/update_habit_use_case.dart';
 import 'package:habit_tracker/features/home/manager/today/today_habits_cubit.dart';
 import 'package:habit_tracker/features/home/manager/weekly/weekly_cubit.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meta/meta.dart';
 
 part 'habit_editor_event.dart';
@@ -131,12 +133,20 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       result.fold((l) {
         showMessage('Error while deleting',
             description: l.message, messageType: MessageType.error);
-      }, (r) {
+      }, (r) async {
         locator.get<TodayHabitsCubit>().loadHabits();
         locator.get<WeeklyCubit>().loadHabits();
         showMessage('Deleted Successfully', messageType: MessageType.success);
+        await removeHistory(habitEntity);
       });
       back();
+    });
+  }
+  Future<void> removeHistory(HabitEntity habit) async {
+    var box = Hive.box<HabitEntity>(HiveHelper.historyBox);
+    var historyHabit = box.values.where((e) => e.id == habit.id).toList();
+    historyHabit.forEach((habit) async {
+      await box.delete("${habit.id}-${habit.createdAt.millisecondsSinceEpoch}");
     });
   }
 

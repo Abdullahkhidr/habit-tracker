@@ -1,30 +1,23 @@
-// // This is a basic Flutter widget test.
-// //
-// // To perform an interaction with a widget in your test, use the WidgetTester
-// // utility in the flutter_test package. For example, you can send tap and scroll
-// // gestures. You can also use WidgetTester to find child widgets in the widget
-// // tree, read text, and verify that the values of widget properties are correct.
-//
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
-//
-// import 'package:habit_tracker/main.dart';
-//
-// void main() {
-//   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-//     // Build our app and trigger a frame.
-//     await tester.pumpWidget(const HabitTracker());
-//
-//     // Verify that our counter starts at 0.
-//     expect(find.text('0'), findsOneWidget);
-//     expect(find.text('1'), findsNothing);
-//
-//     // Tap the '+' icon and trigger a frame.
-//     await tester.tap(find.byIcon(Icons.add));
-//     await tester.pump();
-//
-//     // Verify that our counter has incremented.
-//     expect(find.text('0'), findsNothing);
-//     expect(find.text('1'), findsOneWidget);
-//   });
-// }
+import 'package:flutter_test/flutter_test.dart';
+import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/my_habits/presentation/manager/habit_details/habit_details_cubit.dart';
+
+void main() {
+  group("Percentage Complete", () {
+    var habit = HabitEntity.empty();
+    test("Should return 100 when all days are completed", () {
+      habit.repeatingDays = {1, 2, 3, 4, 5, 6, 7};
+      var start = DateTime.now().subtract(const Duration(days: 10));
+      habit.createdAt = DateTime(start.year, start.month, start.day);
+      HabitDetailsCubit cubit = HabitDetailsCubit(habit);
+      DateTime now = DateTime.now();
+      cubit.history = [
+        for (var i = 0; i <= 10; i++)
+          DateTime(now.year, now.month, now.day)
+              .subtract(Duration(days: 10 - i)),
+      ];
+      print(cubit.history);
+      expect(cubit.numberOfDays, 100.0);
+    });
+  });
+}
