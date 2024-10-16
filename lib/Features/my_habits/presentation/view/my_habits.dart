@@ -44,7 +44,7 @@ class _MyHabitsState extends State<MyHabits> {
         padding: kPaddingSmall,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(title: Text('My Habits')),
+            const SliverAppBar(title: Text('My Habits'), centerTitle: true),
             SliverToBoxAdapter(child: Gap(kSpaceExtraSmall)),
             habits.isEmpty
                 ? const SliverFillRemaining(
