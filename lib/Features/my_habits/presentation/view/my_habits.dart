@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
+import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/widgets/gap.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
@@ -21,25 +22,19 @@ class _MyHabitsState extends State<MyHabits> {
   @override
   void initState() {
     super.initState();
-    habits = box.values.toList();
+    fetchHabits();
   }
 
   void editHabit(int index) async {
-    final updatedHabit = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DetailsHabitPage(
-          habit: habits[index],
-        ),
-      ),
-    );
+    await push(DetailsHabitPage(habit: habits[index])).then((_) {
+      fetchHabits();
+    });
+  }
 
-    if (updatedHabit != null) {
-      setState(() {
-        habits[index] = updatedHabit;
-        box.put(updatedHabit.id, updatedHabit);
-      });
-    }
+  void fetchHabits() async {
+    setState(() {
+      habits = box.values.toList();
+    });
   }
 
   @override

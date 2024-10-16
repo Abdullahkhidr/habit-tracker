@@ -35,8 +35,11 @@ class DetailsHabitPage extends StatelessWidget {
                   icon: const Icon(HugeIcons.strokeRoundedEdit02),
                   onPressed: () {
                     push(BlocProvider.value(
-                        value: locator.get<HabitEditorBloc>(),
-                        child: HabitEditorView(habitEntity: habit)));
+                            value: locator.get<HabitEditorBloc>(),
+                            child: HabitEditorView(habitEntity: habit)))
+                        .then((_) {
+                      back();
+                    });
                   },
                 ),
               ],
