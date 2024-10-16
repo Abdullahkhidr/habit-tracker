@@ -17,7 +17,8 @@ class HabitDetailsCubit extends Cubit<HabitDetailsState> {
   List<DateTime> history = [];
   late ({int all, int completed, List<int> streaks}) numberOfDays;
   int get currentStreak => numberOfDays.streaks.last;
-  double get completionRate => numberOfDays.completed / numberOfDays.all;
+  double get completionRate =>
+      numberOfDays.all == 0 ? 0 : numberOfDays.completed / numberOfDays.all;
 
   void getHabitsDetails(HabitEntity habit) {
     var box = Hive.box<HabitEntity>(HiveHelper.historyBox);

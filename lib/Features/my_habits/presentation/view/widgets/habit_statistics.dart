@@ -29,7 +29,7 @@ class HabitStatistics extends StatelessWidget {
                 value: bloc.completionRate,
                 backgroundColor: kHintColor,
                 strokeWidth: 8,
-                color: habitEntity.color,
+                color: habitEntity.color
               ),
               color: habitEntity.color),
           StatisticsCard(
