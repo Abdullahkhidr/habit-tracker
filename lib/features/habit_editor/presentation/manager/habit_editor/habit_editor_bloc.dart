@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/errors/failure.dart';
 import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
+import 'package:habit_tracker/core/helpers/notifications_helper.dart';
 import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/methods/pick_date.dart';
 import 'package:habit_tracker/core/methods/pick_time.dart';
@@ -101,16 +102,20 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
       Either<Failure, void> result;
       if (isEdit) {
         result = await updateHabitUseCase(habitEntity);
+        await removeNotification(habitEntity);
       } else {
         result = await createHabitUseCase(habitEntity);
       }
       result.fold((l) {
         showMessage('Error while saving',
             description: l.message, messageType: MessageType.error);
-      }, (r) {
+      }, (r) async {
         showMessage('Saved Successfully', messageType: MessageType.success);
         locator.get<TodayHabitsCubit>().loadHabits();
         locator.get<WeeklyCubit>().loadHabits();
+        if (habitEntity.remainder != null) {
+          await setNotification(habitEntity);
+        }
       });
       back();
     });
@@ -138,6 +143,7 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
         locator.get<WeeklyCubit>().loadHabits();
         showMessage('Deleted Successfully', messageType: MessageType.success);
         await removeHistory(habitEntity);
+        await removeNotification(habitEntity);
       });
       back();
     });
@@ -150,6 +156,26 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
     });
   }
 
+  Future<void> setNotification(HabitEntity habitEntity) async {
+    try {
+      await notificationService.scheduleWeeklyNotification(
+        id: habitEntity.id!,
+        title: habitEntity.title,
+        body: habitEntity.description,
+        hour: habitEntity.remainder!.hour,
+        minute: habitEntity.remainder!.minute,
+        daysOfWeek: habitEntity.repeatingDays.toList(),
+      );
+    } catch (e) {
+      showMessage('Error while setting notification',
+          description: e.toString(), messageType: MessageType.error);
+    }
+  }
+
+  Future<void> removeNotification(HabitEntity habitEntity) async {
+    await notificationService.cancelWeeklyNotifications(habitEntity.id!);
+  }
+
   bool validation() {
     if (titleController.text.trim().isEmpty) {
       showMessage('Title is required', messageType: MessageType.error);
@@ -159,6 +185,10 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
         habitEntity.type == HabitType.regularHabit) {
       showMessage('Please select at least one day',
           messageType: MessageType.error);
+      return false;
+    }
+    if (habitEntity.icon.isEmpty) {
+      showMessage('please select icon', messageType: MessageType.error);
       return false;
     }
     return true;
@@ -177,4 +207,5 @@ class HabitEditorBloc extends Bloc<HabitEditorEvent, HabitEditorState> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool get isEdit => _isEdit;
+  NotificationService notificationService = NotificationService();
 }

@@ -1,20 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:label="habit_tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <receiver
-            android:name="be.tramckrijte.workmanager.WorkmanagerBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.REBOOT"/>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.awesome_notifications.core.receivers.ActionReceiver"/>
-        <receiver android:name="com.awesome_notifications.core.receivers.NotificationReceiver"/>
-       
         <activity
             android:name=".MainActivity"
             android:exported="true"

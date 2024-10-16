@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,18 @@ import 'features/home/view/layout/navigator_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled Notifications',
+        channelDescription: 'Notification channel for scheduled notifications',
+        ledColor: Colors.white,
+        importance: NotificationImportance.High,
+      )
+    ],
+  );
   Bloc.observer = AppBlocObserver();
   await HiveHelper.init();
   setupLocator();
