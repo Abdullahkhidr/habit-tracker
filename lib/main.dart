@@ -8,8 +8,8 @@ import 'package:habit_tracker/core/helpers/hive_helper.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
 import 'package:habit_tracker/core/utils/constants.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
+import 'package:habit_tracker/features/splash/view/splash_screen.dart';
 import 'package:toastification/toastification.dart';
-import 'features/home/view/layout/navigator_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +60,7 @@ class HabitTracker extends StatelessWidget {
                 onPrimary: kOnPrimaryColor,
                 onSecondary: kOnSecondaryColor,
                 error: kErrorColor)),
-        home: const NavigatorScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
