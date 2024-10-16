@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:habit_tracker/core/helpers/locator.dart';
+import 'package:habit_tracker/core/methods/get_date_from_datetime.dart';
 import 'package:habit_tracker/core/methods/navigation.dart';
 import 'package:habit_tracker/core/utils/text_styles.dart';
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity.dart';
@@ -89,17 +88,13 @@ class DetailsHabitPage extends StatelessWidget {
                                   defaultBuilder: (context, day, focusedDay) {
                                     return DetailsCalenderItemWidget(
                                         day: day,
-                                        active: bloc.history.contains(day));
+                                        active:
+                                            bloc.history.contains(day.date));
                                   },
                                   todayBuilder: (context, day, focusedDay) {
-                                    return CircleAvatar(
-                                      backgroundColor: kSuccessColor,
-                                      child: Padding(
-                                        padding: kPaddingExtraSmall,
-                                        child: DetailsCalenderItemWidget(
-                                            day: day,
-                                            active: bloc.history.contains(day)),
-                                      ),
+                                    return DetailsCalenderItemWidget(
+                                      day: day,
+                                      active: bloc.history.contains(day.date),
                                     );
                                   },
                                   disabledBuilder: (context, day, focusedDay) {
@@ -107,7 +102,8 @@ class DetailsHabitPage extends StatelessWidget {
                                       opacity: 0.4,
                                       child: DetailsCalenderItemWidget(
                                           day: day,
-                                          active: bloc.history.contains(day)),
+                                          active:
+                                              bloc.history.contains(day.date)),
                                     );
                                   },
                                   outsideBuilder: (context, day, focusedDay) {
@@ -115,7 +111,8 @@ class DetailsHabitPage extends StatelessWidget {
                                       opacity: 0.5,
                                       child: DetailsCalenderItemWidget(
                                           day: day,
-                                          active: bloc.history.contains(day)),
+                                          active:
+                                              bloc.history.contains(day.date)),
                                     );
                                   },
                                 )),
@@ -131,18 +128,6 @@ class DetailsHabitPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  EventList<Event> _getMarkedDates(List<DateTime> completedDays) {
-    final markedDates = EventList<Event>(
-      events: {
-        for (var day in completedDays)
-          DateTime(day.year, day.month, day.day): [
-            Event(date: day, title: 'Completed')
-          ],
-      },
-    );
-    return markedDates;
   }
 }
 
@@ -161,7 +146,9 @@ class DetailsCalenderItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: kBorderRadiusCircular,
           color: active ? kPrimaryColor : kHintColor.withOpacity(0.7)),
-      child: Text(day.day.toString(), style: TextStyles.h4),
+      child: Text(day.day.toString(),
+          style: TextStyles.h4
+              .copyWith(color: active ? kOnPrimaryColor : kTextColor)),
     );
   }
 }
