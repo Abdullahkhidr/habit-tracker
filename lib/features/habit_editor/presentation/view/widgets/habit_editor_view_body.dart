@@ -10,7 +10,6 @@ import 'package:habit_tracker/features/habit_editor/domain/entities/habit_entity
 import 'package:habit_tracker/features/habit_editor/domain/entities/habit_type.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/manager/habit_editor/habit_editor_bloc.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/color_palette_widget.dart';
-import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/date_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/date_time_task_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/icon_selector_widget.dart';
 import 'package:habit_tracker/features/habit_editor/presentation/view/widgets/repeat_section_widget.dart';
@@ -90,7 +89,6 @@ class _HabitEditorViewBodyState extends State<HabitEditorViewBody> {
                         const RepeatSectionWidget(),
                         Gap(kSpaceLarge),
                         const TimeOfDaySelectorWidget(),
-                        const DueDateSelectorWidget(),
                         const TimeSelectorWidget(),
                       ],
                     )
