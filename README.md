@@ -21,7 +21,7 @@ The Habit Tracker app helps users build and maintain habits by tracking daily ta
 ## How to Use
 
 ### 1. Getting Started
-- Download and install the app from your respective app store.
+- Download and install the app from your Respective app store.
 - Upon launching the app, you can immediately start creating habits and tracking your progress—no sign-up or registration required.
 
 ### 2. Creating a Habit
